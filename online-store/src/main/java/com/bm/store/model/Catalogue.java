@@ -15,9 +15,12 @@ import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author Jephy
@@ -26,8 +29,12 @@ import lombok.EqualsAndHashCode;
  */
 @ApiModel(description = "All details about the catalague. ")
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = false) @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@Builder
 public class Catalogue extends StoreUnit {
 
 	@ApiModelProperty(notes = "The database generated catalogue ID")

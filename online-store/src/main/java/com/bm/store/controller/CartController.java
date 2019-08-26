@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/cart")
-@Api(value = "Chart Management")
+@Api(value = "Cart Management")
 @Slf4j
 public class CartController {
 
