@@ -9,13 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	private static final String ADMIN = "ADMIN";
+
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
 		auth.inMemoryAuthentication()
         .withUser("user").password("{noop}password").roles("USER")
         .and()
-        .withUser("admin").password("{noop}password").roles("USER", "ADMIN");
+        .withUser("admin").password("{noop}password").roles("USER", ADMIN);
 
     }
 	
@@ -25,8 +27,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/account/**").hasAnyRole("USER","ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/account/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/account/**").hasAnyRole("USER",ADMIN)
+                .antMatchers(HttpMethod.DELETE, "/api/account/**").hasAnyRole("USER",ADMIN)
                 .and()
                 .csrf().disable()
                 .formLogin().disable();

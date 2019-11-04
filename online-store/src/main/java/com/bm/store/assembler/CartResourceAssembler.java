@@ -23,9 +23,8 @@ public class CartResourceAssembler implements ResourceAssembler<Cart, Resource<C
 		Set<Link> links = new LinkedHashSet<>();
 		links.add(linkTo(methodOn(CartController.class).readCart()).withSelfRel());
 		
-		cart.getSelectedProducts().forEach((p,q) -> {
-			links.add(linkTo(methodOn(ProductController.class).readProduct(p.getId())).withRel("products"));
-		});
+		cart.getSelectedProducts().forEach((p,q) -> 
+			links.add(linkTo(methodOn(ProductController.class).readProduct(p.getId())).withRel("products")));
 		
 		return new Resource<>(cart, links);
 	}
