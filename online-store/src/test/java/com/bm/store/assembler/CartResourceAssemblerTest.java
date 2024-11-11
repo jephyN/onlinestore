@@ -1,28 +1,23 @@
 package com.bm.store.assembler;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import com.bm.store.model.Cart;
+import com.bm.store.model.Product;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.hateoas.Resource;
-
-import com.bm.store.model.Cart;
-import com.bm.store.model.Product;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CartResourceAssemblerTest {
 
 	CartResourceAssembler assembler;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		assembler = new CartResourceAssembler();
 	}
 
@@ -35,14 +30,13 @@ public class CartResourceAssemblerTest {
 		Cart cart = Cart.builder().selectedProducts(new LinkedHashMap<>()).build();
 
 		/* When */
-		Resource<Cart> resource = assembler.toResource(cart);
+		EntityModel<Cart> resource = assembler.toModel(cart);
 
 		/* Then */
-		assertNotNull(resource);
-		assertEquals(cart, resource.getContent());
-		assertNotNull(resource.getId());
-		assertNotNull(resource.getLinks());
-		assertThat(resource.getLinks(), hasSize(1));
+		assertThat(resource).isNotNull();
+		assertThat(cart).isEqualTo(resource.getContent());
+		assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
+		assertThat(resource.getLinks()).isNotNull().hasSize(1);
 	}
 
 	@Test
@@ -56,15 +50,14 @@ public class CartResourceAssemblerTest {
 		Cart cart = Cart.builder().selectedProducts(map).build();
 
 		/* When */
-		Resource<Cart> resource = assembler.toResource(cart);
+		EntityModel<Cart> resource = assembler.toModel(cart);
 
 		/* Then */
-		assertNotNull(resource);
-		assertEquals(cart, resource.getContent());
-		assertNotNull(resource.getId());
-		assertNotNull(resource.getLinks());
-		assertThat(resource.getLinks(), Matchers.hasSize(2));
-		assertTrue(resource.hasLink("products"));
+		assertThat(resource).isNotNull();
+		assertThat(cart).isEqualTo(resource.getContent());
+		assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
+		assertThat(resource.getLinks()).isNotNull().hasSize(2);
+		assertThat(resource.hasLink("products")).isTrue();
 	}
 
 }

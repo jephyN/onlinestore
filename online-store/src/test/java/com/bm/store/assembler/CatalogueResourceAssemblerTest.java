@@ -1,25 +1,24 @@
 package com.bm.store.assembler;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.bm.store.model.Catalogue;
+import com.bm.store.model.Product;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.hateoas.Resource;
-
-import com.bm.store.model.Catalogue;
-import com.bm.store.model.Product;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CatalogueResourceAssemblerTest {
 
 	CatalogueResourceAssembler assembler;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		assembler = new CatalogueResourceAssembler();
 	}
 
@@ -35,12 +34,12 @@ public class CatalogueResourceAssemblerTest {
 				.endDate(LocalDate.now().plusMonths(3)).catalogProducts(products).build();
 
 		/* When */
-		Resource<Catalogue> resource = assembler.toResource(catalogue);
+		EntityModel<Catalogue> resource = assembler.toModel(catalogue);
 
 		/* Then */
-		assertNotNull(resource);
-		assertEquals(catalogue, resource.getContent());
-		assertNotNull(resource.getId());
+		assertThat(resource).isNotNull();
+		assertThat(catalogue).isEqualTo(resource.getContent());
+		assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
 	}
 
 }

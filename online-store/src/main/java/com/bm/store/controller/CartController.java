@@ -1,7 +1,7 @@
 package com.bm.store.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,36 +40,36 @@ public class CartController {
 
 	@ApiOperation(value = "Read cart's information")
 	@GetMapping
-	public Resource<Cart> readCart() {
+	public EntityModel<Cart> readCart() {
 		log.info("Reading a cart ...");
-		return cartResourceAssembler.toResource(cart);
+		return cartResourceAssembler.toModel(cart);
 	}
 
 	@ApiOperation(value = "Add a product in the cart")
 	@PostMapping("/product/{id}")
-	public Resource<Cart> addProductToCart(
+	public EntityModel<Cart> addProductToCart(
 			@ApiParam(value = "Catalog id to read mission object", required = true) @PathVariable(value = "id") int id,
 			@RequestParam("qt") long qt) {
 		log.info("adding a product to cart ...");
 
-		Resource<Product> productResource = productController.readProduct(id);
+		EntityModel<Product> productResource = productController.readProduct(id);
 		
 		cartService.addCartItems(cart, productResource.getContent(), qt);
 
-		return cartResourceAssembler.toResource(cart);
+		return cartResourceAssembler.toModel(cart);
 	}
 
 	@ApiOperation(value = "Remove a product from cart")
 	@DeleteMapping("/product/{id}")
-	public Resource<Cart> removeProductFromCart(
+	public EntityModel<Cart> removeProductFromCart(
 			@ApiParam(value = "Catalog id to read mission object", required = true) @PathVariable(value = "id") int id,
 			@RequestParam("qt") long qt) {
 		log.info("adding a product to cart ...");
 
-		Resource<Product> productResource = productController.readProduct(id);
+		EntityModel<Product> productResource = productController.readProduct(id);
 		
 		cartService.removeCartItems(cart, productResource.getContent(), qt);
 		
-		return cartResourceAssembler.toResource(cart);
+		return cartResourceAssembler.toModel(cart);
 	}
 }

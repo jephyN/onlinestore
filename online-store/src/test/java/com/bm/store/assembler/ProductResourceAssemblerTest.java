@@ -1,20 +1,19 @@
 package com.bm.store.assembler;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import com.bm.store.model.Product;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 
-import com.bm.store.model.Product;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProductResourceAssemblerTest {
 
 	ProductResourceAssembler assembler;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		assembler = new ProductResourceAssembler();
 	}
 
@@ -26,12 +25,12 @@ public class ProductResourceAssemblerTest {
 		product.setName("test");
 
 		/* When */
-		Resource<Product> resource = assembler.toResource(product);
+		EntityModel<Product> resource = assembler.toModel(product);
 
 		/* Then */
-		assertNotNull(resource);
-		assertEquals(product, resource.getContent());
-		assertNotNull(resource.getId());
+		assertThat(resource).isNotNull();
+		assertThat(product).isEqualTo(resource.getContent());
+		assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
 	}
 
 }

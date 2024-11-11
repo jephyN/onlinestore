@@ -1,7 +1,7 @@
 package com.bm.store.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,11 +31,11 @@ public class ProductController {
 	
 	@ApiOperation(value = "Read product's information")
 	@GetMapping("/{id}")
-	public Resource<Product> readProduct(@ApiParam(value = "Product id to read mission object", required = true) @PathVariable(value="id") long id){	
+	public EntityModel<Product> readProduct(@ApiParam(value = "Product id to read mission object", required = true) @PathVariable(value="id") long id){
 		log.info("Reading a product ...");
 		
 		Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		
-		return assembler.toResource(product);
+		return assembler.toModel(product);
 	}
 }

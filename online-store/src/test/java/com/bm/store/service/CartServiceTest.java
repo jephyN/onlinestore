@@ -20,14 +20,14 @@ public class CartServiceTest {
 	CartService cartService;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		cartService = new CartServiceImpl();
 	}
 
 	@Test
 	public void addFirstCartItems() {
 		/* Given */
-		Cart cart = Cart.builder().selectedProducts(new HashMap<Product, Long>()).build();
+		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();
 		product.setId(1);
 		product.setPrice(BigDecimal.valueOf(9.99));
@@ -49,7 +49,7 @@ public class CartServiceTest {
 	@Test
 	public void addCartSameProductItems() {
 		/* Given */
-		Cart cart = Cart.builder().selectedProducts(new HashMap<Product, Long>()).build();
+		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();
 		product.setId(1);
 		product.setPrice(BigDecimal.valueOf(9.99));
@@ -72,7 +72,7 @@ public class CartServiceTest {
 	@Test
 	public void removeCartProductItems() {
 		/* Given */
-		Cart cart = Cart.builder().selectedProducts(new HashMap<Product, Long>()).build();
+		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();
 		product.setId(1);
 		product.setPrice(BigDecimal.valueOf(9.99));
