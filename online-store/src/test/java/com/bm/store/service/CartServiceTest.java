@@ -1,19 +1,15 @@
 package com.bm.store.service;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import com.bm.store.model.Cart;
+import com.bm.store.model.Product;
+import org.assertj.core.api.Assertions;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import com.bm.store.model.Cart;
-import com.bm.store.model.Product;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CartServiceTest {
 	
@@ -38,12 +34,13 @@ public class CartServiceTest {
 		cartService.addCartItems(cart, product, quantity);
 		
 		/* Then */
-		assertEquals(1,cart.getSelectedProducts().size());
-		assertTrue(cart.getSelectedProducts().containsKey(product));
-		assertTrue(cart.getSelectedProducts().containsValue(quantity));
-		assertEquals(Double.valueOf(1.3),cart.getTotalTaxes());
-		assertEquals(Double.valueOf(11.29),cart.getTotalPrice());
-		assertThat(cart.getCartItems(),hasSize(1));
+		assertThat(cart.getSelectedProducts())
+				.hasSize(1)
+				.containsKey(product)
+				.containsValue(quantity);
+		assertThat(cart.getTotalTaxes()).isEqualTo(1.3D);
+		assertThat(cart.getTotalPrice()).isEqualTo(11.29D);
+		assertThat(cart.getCartItems()).hasSize(1);
 	}
 
 	@Test
@@ -61,12 +58,13 @@ public class CartServiceTest {
 		cartService.addCartItems(cart, product, quantity);
 		
 		/* Then */
-		assertEquals(1,cart.getSelectedProducts().size());
-		assertTrue(cart.getSelectedProducts().containsKey(product));
-		assertTrue(cart.getSelectedProducts().containsValue(quantity*2));
-		assertEquals(Double.valueOf(2.6),cart.getTotalTaxes());
-		assertEquals(Double.valueOf(22.58),cart.getTotalPrice());
-		assertThat(cart.getCartItems(),hasSize(1));
+		assertThat(cart.getSelectedProducts())
+				.hasSize(1)
+				.containsKey(product)
+				.containsValue(quantity * 2);
+		assertThat(cart.getTotalTaxes()).isEqualTo(2.6D);
+		assertThat(cart.getTotalPrice()).isEqualTo(22.58D);
+		assertThat(cart.getCartItems()).hasSize(1);
 	}
 	
 	@Test
@@ -84,12 +82,10 @@ public class CartServiceTest {
 		cartService.removeCartItems(cart, product, quantity);
 		
 		/* Then */
-		assertEquals(0,cart.getSelectedProducts().size());
-		assertFalse(cart.getSelectedProducts().containsKey(product));
-		assertFalse(cart.getSelectedProducts().containsValue(quantity));
-		assertEquals(Double.valueOf(0.0),cart.getTotalTaxes());
-		assertEquals(Double.valueOf(0.0),cart.getTotalPrice());
-		assertThat(cart.getCartItems(),hasSize(0));
+		assertThat(cart.getSelectedProducts()).isEmpty();
+		assertThat(cart.getTotalTaxes()).isZero();
+		assertThat(cart.getTotalPrice()).isZero();
+		assertThat(cart.getCartItems()).isEmpty();
 	}
 
 	@Test
@@ -107,11 +103,9 @@ public class CartServiceTest {
 		cartService.removeCartItems(cart, product, quantity + 1);
 
 		/* Then */
-		assertEquals(0,cart.getSelectedProducts().size());
-		assertFalse(cart.getSelectedProducts().containsKey(product));
-		assertFalse(cart.getSelectedProducts().containsValue(quantity));
-		assertEquals(Double.valueOf(0.0),cart.getTotalTaxes());
-		assertEquals(Double.valueOf(0.0),cart.getTotalPrice());
-		assertThat(cart.getCartItems(),hasSize(0));
+		assertThat(cart.getSelectedProducts()).isEmpty();
+		assertThat(cart.getTotalTaxes()).isZero();
+		assertThat(cart.getTotalPrice()).isZero();
+		assertThat(cart.getCartItems()).isEmpty();
 	}
 }
