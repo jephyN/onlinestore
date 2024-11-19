@@ -25,7 +25,7 @@ public class CartServiceTest {
 	}
 
 	@Test
-	public void addFirstCartItems() {
+	public void addFirstCartItems_whenCartIsEmpty_shouldReturnProducts() {
 		/* Given */
 		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();
@@ -47,7 +47,7 @@ public class CartServiceTest {
 	}
 
 	@Test
-	public void addCartSameProductItems() {
+	public void addCartSameProductItems_withSameProducts_shouldReturnSameProducts() {
 		/* Given */
 		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();
@@ -70,7 +70,7 @@ public class CartServiceTest {
 	}
 	
 	@Test
-	public void removeCartProductItems() {
+	public void removeCartProductItems_whenCartHasOneProduct_shouldRemoveProduct() {
 		/* Given */
 		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();
@@ -83,6 +83,29 @@ public class CartServiceTest {
 		cartService.addCartItems(cart, product, quantity);
 		cartService.removeCartItems(cart, product, quantity);
 		
+		/* Then */
+		assertEquals(0,cart.getSelectedProducts().size());
+		assertFalse(cart.getSelectedProducts().containsKey(product));
+		assertFalse(cart.getSelectedProducts().containsValue(quantity));
+		assertEquals(Double.valueOf(0.0),cart.getTotalTaxes());
+		assertEquals(Double.valueOf(0.0),cart.getTotalPrice());
+		assertThat(cart.getCartItems(),hasSize(0));
+	}
+
+	@Test
+	public void removeCartProductItems_whenQuantityToRemoveExceeds_shouldRemoveProduct() {
+		/* Given */
+		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
+		Product product = new Product();
+		product.setId(1);
+		product.setPrice(BigDecimal.valueOf(9.99));
+		product.setTaxable(true);
+		long quantity = 1L;
+
+		/* When */
+		cartService.addCartItems(cart, product, quantity);
+		cartService.removeCartItems(cart, product, quantity + 1);
+
 		/* Then */
 		assertEquals(0,cart.getSelectedProducts().size());
 		assertFalse(cart.getSelectedProducts().containsKey(product));
