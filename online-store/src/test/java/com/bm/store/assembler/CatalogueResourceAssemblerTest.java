@@ -2,8 +2,8 @@ package com.bm.store.assembler;
 
 import com.bm.store.model.Catalogue;
 import com.bm.store.model.Product;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 
@@ -13,17 +13,17 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CatalogueResourceAssemblerTest {
+class CatalogueResourceAssemblerTest {
 
 	CatalogueResourceAssembler assembler;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		assembler = new CatalogueResourceAssembler();
 	}
 
 	@Test
-	public void buildCatalogResource() {
+	void buildCatalogResource() {
 		/* Given */
 		Product product = new Product();
 		Set<Product> products = new HashSet<>();

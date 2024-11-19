@@ -2,8 +2,9 @@ package com.bm.store.assembler;
 
 import com.bm.store.model.Cart;
 import com.bm.store.model.Product;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 
@@ -12,17 +13,17 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CartResourceAssemblerTest {
+class CartResourceAssemblerTest {
 
 	CartResourceAssembler assembler;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		assembler = new CartResourceAssembler();
 	}
 
 	@Test
-	public void buildCartResourceNoProduct() {
+	void buildCartResourceNoProduct() {
 		/* Given */
 		Product product = new Product();
 		product.setId(1);
@@ -40,7 +41,7 @@ public class CartResourceAssemblerTest {
 	}
 
 	@Test
-	public void buildCartResourceWithProducts() {
+	void buildCartResourceWithProducts() {
 		/* Given */
 		Product product = new Product();
 		product.setId(1);

@@ -2,26 +2,26 @@ package com.bm.store.service;
 
 import com.bm.store.model.Cart;
 import com.bm.store.model.Product;
-import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CartServiceTest {
+class CartServiceTest {
 	
 	CartService cartService;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		cartService = new CartServiceImpl();
 	}
 
 	@Test
-	public void addFirstCartItems_whenCartIsEmpty_shouldReturnProducts() {
+	void addFirstCartItems_whenCartIsEmpty_shouldReturnProducts() {
 		/* Given */
 		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();
@@ -44,7 +44,7 @@ public class CartServiceTest {
 	}
 
 	@Test
-	public void addCartSameProductItems_withSameProducts_shouldReturnSameProducts() {
+	void addCartSameProductItems_withSameProducts_shouldReturnSameProducts() {
 		/* Given */
 		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();
@@ -68,7 +68,7 @@ public class CartServiceTest {
 	}
 	
 	@Test
-	public void removeCartProductItems_whenCartHasOneProduct_shouldRemoveProduct() {
+	void removeCartProductItems_whenCartHasOneProduct_shouldRemoveProduct() {
 		/* Given */
 		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();
@@ -89,7 +89,7 @@ public class CartServiceTest {
 	}
 
 	@Test
-	public void removeCartProductItems_whenQuantityToRemoveExceeds_shouldRemoveProduct() {
+	void removeCartProductItems_whenQuantityToRemoveExceeds_shouldRemoveProduct() {
 		/* Given */
 		Cart cart = Cart.builder().selectedProducts(new HashMap<>()).build();
 		Product product = new Product();

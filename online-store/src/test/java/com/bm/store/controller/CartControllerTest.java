@@ -1,24 +1,25 @@
 package com.bm.store.controller;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CartControllerTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class CartControllerTest {
 
     private final String expectedDefaultCustomerCart = "{\"totalTaxes\":0.0," +
             "\"totalPrice\":0.0,\"cartItems\":[]," +
@@ -39,39 +40,46 @@ public class CartControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
-    public void test1_readCart_whenCartIsEmpty_shouldReturnsDefaultCustomerCart() throws Exception {
+    @Order(1)
+    void readCart_whenCartIsEmpty_shouldReturnsDefaultCustomerCart() throws Exception {
         this.mockMvc.perform(get("/api/cart"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedDefaultCustomerCart));
     }
 
     @Test
-    public void test2_addProductToCart_whenProductIsNotFound_shouldReturnCartWithOneProduct() throws Exception {
+    @Order(2)
+    void addProductToCart_whenProductIsNotFound_shouldReturnCartWithOneProduct() throws Exception {
         this.mockMvc.perform(patch("/api/cart/product/-1?qt=1")).andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product -1"));
     }
 
     @Test
-    public void test3_addProductToCart_whenCartIsEmpty_shouldReturnCartWithOneProduct() throws Exception {
+    @Order(3)
+    void addProductToCart_whenCartIsEmpty_shouldReturnCartWithOneProduct() throws Exception {
         this.mockMvc.perform(patch("/api/cart/product/1?qt=1")).andExpect(status().isOk())
                 .andExpect(content().json(expectedCartWithOneProduct));
     }
 
     @Test
-    public void test4_removeProductToCart_whenProductIsNotFound_shouldReturn404() throws Exception {
+    @Order(4)
+    void removeProductToCart_whenProductIsNotFound_shouldReturn404() throws Exception {
         this.mockMvc.perform(delete("/api/cart/product/-1?qt=1")).andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product -1"));
     }
 
     @Test
-    public void test4_removeProductToCart_whenCartDoesNotContainProduct_shouldReturnUnModifiedCart() throws Exception {
+    @Order(5)
+    void removeProductToCart_whenCartDoesNotContainProduct_shouldReturnUnModifiedCart() throws Exception {
         this.mockMvc.perform(delete("/api/cart/product/3?qt=1")).andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product 3 in the cart."));
     }
 
     @Test
-    public void test5_removeProductToCart_whenCartIsNotEmpty_shouldReturnEmptyCart() throws Exception {
+    @Order(6)
+    void removeProductToCart_whenCartIsNotEmpty_shouldReturnEmptyCart() throws Exception {
         this.mockMvc.perform(delete("/api/cart/product/1?qt=1")).andExpect(status().isOk())
                 .andExpect(content().json(expectedDefaultCustomerCart));
     }
