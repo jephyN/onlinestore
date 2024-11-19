@@ -17,14 +17,16 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public void addCartItems(Cart cart, Product product, long quantity) {
-		cart.getSelectedProducts().merge(product, quantity, (q1, q2) -> q1.longValue() + q2.longValue());
+		cart.getSelectedProducts().merge(product, quantity, Long::sum);
 		generatesPricing(cart);
 	}
 
 	@Override
 	public void removeCartItems(Cart cart, Product product, long quantity) {
-		cart.getSelectedProducts().merge(product, quantity, (q1, q2) -> q1.longValue() - q2.longValue());
-		cart.getSelectedProducts().remove(product, 0L);
+		cart.getSelectedProducts().merge(product, quantity, (q1, q2) -> q1 - q2);
+		if (cart.getSelectedProducts().get(product) <= 0L) {
+			cart.getSelectedProducts().remove(product);
+		}
 		generatesPricing(cart);
 	}
 
@@ -42,7 +44,6 @@ public class CartServiceImpl implements CartService {
 					.isTaxable(k.isTaxable()).price(k.getPrice()).quantity(v).build();
 			cartItems.add(cartItem);
 		});
-		
 		cart.setCartItems(cartItems);
 	}
 
@@ -51,7 +52,6 @@ public class CartServiceImpl implements CartService {
 				.map(item -> item.getPrice().multiply(BigDecimal.valueOf(TAX))
 						.multiply(BigDecimal.valueOf(item.getQuantity())))
 				.reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
-
 		cart.setTotalTaxes(totalTaxes);
 	}
 
@@ -61,7 +61,6 @@ public class CartServiceImpl implements CartService {
 				.reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, BigDecimal.ROUND_HALF_EVEN)
 				.add(BigDecimal.valueOf(cart.getTotalTaxes()))
 				.doubleValue();
-
 		cart.setTotalPrice(total);
 	}
 

@@ -27,6 +27,6 @@ public class AccountController {
 	@DeleteMapping
 	public ResponseEntity<String> disconnects() {
 		log.info("Disconnecting ...");
-		return ResponseEntity.ok("Disonnected!!");
+		return ResponseEntity.ok("Disconnected!!");
 	}
 }

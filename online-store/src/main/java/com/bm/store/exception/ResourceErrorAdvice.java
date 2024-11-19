@@ -28,4 +28,12 @@ public class ResourceErrorAdvice {
 		return exception.getMessage();
 	}
 
+	@ResponseBody
+	@ExceptionHandler(CartMissingItemException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	String cartHandler(CartMissingItemException exception) {
+		log.error("Product not found in the cart!");
+		return exception.getMessage();
+	}
+
 }

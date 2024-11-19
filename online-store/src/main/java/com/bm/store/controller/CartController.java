@@ -1,14 +1,9 @@
 package com.bm.store.controller;
 
+import com.bm.store.exception.CartMissingItemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.bm.store.assembler.CartResourceAssembler;
 import com.bm.store.model.Cart;
@@ -19,6 +14,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -46,30 +43,27 @@ public class CartController {
 	}
 
 	@ApiOperation(value = "Add a product in the cart")
-	@PostMapping("/product/{id}")
+	@PatchMapping("/product/{id}")
 	public EntityModel<Cart> addProductToCart(
-			@ApiParam(value = "Catalog id to read mission object", required = true) @PathVariable(value = "id") int id,
-			@RequestParam("qt") long qt) {
+			@ApiParam(value = "Product id to add", required = true) @PathVariable(value = "id") int id,
+			@ApiParam(value = "quantity to add", required = true) @RequestParam("qt") long qt) {
 		log.info("adding a product to cart ...");
-
 		EntityModel<Product> productResource = productController.readProduct(id);
-		
 		cartService.addCartItems(cart, productResource.getContent(), qt);
-
 		return cartResourceAssembler.toModel(cart);
 	}
 
 	@ApiOperation(value = "Remove a product from cart")
 	@DeleteMapping("/product/{id}")
 	public EntityModel<Cart> removeProductFromCart(
-			@ApiParam(value = "Catalog id to read mission object", required = true) @PathVariable(value = "id") int id,
-			@RequestParam("qt") long qt) {
-		log.info("adding a product to cart ...");
-
+			@ApiParam(value = "Product id to remove", required = true) @PathVariable(value = "id") int id,
+			@ApiParam(value = "quantity to remove", required = true) @RequestParam("qt") long qt) {
+		log.info("removing a product to cart ...");
 		EntityModel<Product> productResource = productController.readProduct(id);
-		
+		Optional.of(cart.getSelectedProducts())
+				.filter(productMap -> productMap.containsKey(productResource.getContent()))
+				.orElseThrow(()-> new CartMissingItemException(id));
 		cartService.removeCartItems(cart, productResource.getContent(), qt);
-		
 		return cartResourceAssembler.toModel(cart);
 	}
 }

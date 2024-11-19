@@ -13,7 +13,8 @@ INSERT INTO CATALOGUE (region, start_date, end_date) VALUES
 ('GTA', '2019-09-04', '2019-12-20'),
 ('Montreal area', '2019-07-01', '2019-08-29'),
 ('Montreal area', '2019-09-30', '2019-12-20'),
-('Default', '2019-07-01', '2099-12-31');
+('Default', '2019-07-01', '2099-12-31'),
+('Short', '2024-07-01', '2024-12-31');
 
 INSERT INTO CATALOG_PRODUCTS(catalogue_id, product_id) VALUES
 (1, 2),
@@ -45,5 +46,8 @@ INSERT INTO CATALOG_PRODUCTS(catalogue_id, product_id) VALUES
 (5, 5), 
 (5, 6),
 (5, 7),
-(5, 8); 
+(5, 8),
+(6, 7),
+(6, 8);
+
 

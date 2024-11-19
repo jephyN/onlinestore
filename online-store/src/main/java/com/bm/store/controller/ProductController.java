@@ -33,9 +33,7 @@ public class ProductController {
 	@GetMapping("/{id}")
 	public EntityModel<Product> readProduct(@ApiParam(value = "Product id to read mission object", required = true) @PathVariable(value="id") long id){
 		log.info("Reading a product ...");
-		
 		Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-		
 		return assembler.toModel(product);
 	}
 }

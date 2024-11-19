@@ -23,15 +23,8 @@ import lombok.EqualsAndHashCode;
 public class Cart extends StoreUnit {
 
 	/**
-	 * 
-	 */
-	@SuppressWarnings("unused")
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * selected products in the cart
 	 */
-	@JsonIgnore
 	@ApiModelProperty(notes = "Products added to the cart with their quantities")
 	private Map<Product, Long> selectedProducts;
 	

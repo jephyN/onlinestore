@@ -43,18 +43,14 @@ public class CatalogueController {
 	@GetMapping("/{id}")
 	public CollectionModel<EntityModel<? extends StoreUnit>> readCatalogue(@ApiParam(value = "Catalog id to read mission object", required = true) @PathVariable(value="id") int id){
 		log.info("Reading a catalogue ...");
-		
 		Catalogue catalogue = catalogueRepo.findById(id).orElseThrow(() -> new CatalogueNotFoundException(id));
-		
 		List<EntityModel<? extends StoreUnit>> resources = new LinkedList<>();
-
 		EntityModel<Catalogue> catalogueResource = catalogueAssembler.toModel(catalogue);
 		resources.add(catalogueResource);
 		List<EntityModel<Product>> productResources = catalogue.getCatalogProducts()
 					.stream().map(productAssembler::toModel)
 					.collect(Collectors.toList());
 		resources.addAll(productResources);
-		
 		return new CollectionModel<>(resources, catalogueResource.getRequiredLink(IanaLinkRelations.SELF));
 	}
 }
