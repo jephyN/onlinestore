@@ -16,7 +16,8 @@ mvn clean install
 Simply execute the following command:
 `mvn spring-boot:run`
 
-## Working
+## Testing
+### Generating code coverage report
 1. Build the Project
 2. Move to Jacoco folder and open ```target/site/jacoco/index.html```
 3. ```index.html``` will list the coverage for the complete Project
