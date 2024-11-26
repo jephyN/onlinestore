@@ -1,7 +1,6 @@
 package com.bm.store.exception;
 
 public class CatalogueNotFoundException extends RuntimeException {
-
 	/**
 	 * 
 	 */
@@ -10,6 +9,4 @@ public class CatalogueNotFoundException extends RuntimeException {
 	public CatalogueNotFoundException(int id) {
 		super("Could not find the catalogue " + id);
 	}
-
-	
 }

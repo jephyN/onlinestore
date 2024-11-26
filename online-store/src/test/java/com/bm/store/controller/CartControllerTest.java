@@ -52,35 +52,40 @@ class CartControllerTest {
     @Test
     @Order(2)
     void addProductToCart_whenProductIsNotFound_shouldReturnCartWithOneProduct() throws Exception {
-        this.mockMvc.perform(patch("/api/cart/product/-1?qt=1")).andExpect(status().isNotFound())
+        this.mockMvc.perform(patch("/api/cart/product/-1?qt=1"))
+                .andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product -1"));
     }
 
     @Test
     @Order(3)
     void addProductToCart_whenCartIsEmpty_shouldReturnCartWithOneProduct() throws Exception {
-        this.mockMvc.perform(patch("/api/cart/product/1?qt=1")).andExpect(status().isOk())
+        this.mockMvc.perform(patch("/api/cart/product/1?qt=1"))
+                .andExpect(status().isOk())
                 .andExpect(content().json(expectedCartWithOneProduct));
     }
 
     @Test
     @Order(4)
     void removeProductToCart_whenProductIsNotFound_shouldReturn404() throws Exception {
-        this.mockMvc.perform(delete("/api/cart/product/-1?qt=1")).andExpect(status().isNotFound())
+        this.mockMvc.perform(delete("/api/cart/product/-1?qt=1"))
+                .andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product -1"));
     }
 
     @Test
     @Order(5)
     void removeProductToCart_whenCartDoesNotContainProduct_shouldReturnUnModifiedCart() throws Exception {
-        this.mockMvc.perform(delete("/api/cart/product/3?qt=1")).andExpect(status().isNotFound())
+        this.mockMvc.perform(delete("/api/cart/product/3?qt=1"))
+                .andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product 3 in the cart."));
     }
 
     @Test
     @Order(6)
     void removeProductToCart_whenCartIsNotEmpty_shouldReturnEmptyCart() throws Exception {
-        this.mockMvc.perform(delete("/api/cart/product/1?qt=1")).andExpect(status().isOk())
+        this.mockMvc.perform(delete("/api/cart/product/1?qt=1"))
+                .andExpect(status().isOk())
                 .andExpect(content().json(expectedDefaultCustomerCart));
     }
 

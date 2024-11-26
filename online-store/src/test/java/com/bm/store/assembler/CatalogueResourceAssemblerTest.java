@@ -30,8 +30,12 @@ class CatalogueResourceAssemblerTest {
 		product.setId(1);
 		products.add(product);
 
-		Catalogue catalogue = Catalogue.builder().id(1).startDate(LocalDate.now())
-				.endDate(LocalDate.now().plusMonths(3)).catalogProducts(products).build();
+		Catalogue catalogue = Catalogue.builder()
+				.id(1)
+				.startDate(LocalDate.now())
+				.endDate(LocalDate.now().plusMonths(3))
+				.catalogProducts(products)
+				.build();
 
 		/* When */
 		EntityModel<Catalogue> resource = assembler.toModel(catalogue);

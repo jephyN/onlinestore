@@ -11,7 +11,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -26,31 +25,36 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/catalogue")
-@Api(value="Catalogue Management")
+@Api(value = "Catalogue Management")
 @Slf4j
 public class CatalogueController {
-	
-	@Autowired
-	private CatalogueRepository catalogueRepo;
-	
-	@Autowired
-	private CatalogueResourceAssembler catalogueAssembler;
-	
-	@Autowired
-	private ProductResourceAssembler productAssembler;
 
-	@ApiOperation(value = "Read catalogue's information")
-	@GetMapping("/{id}")
-	public CollectionModel<EntityModel<? extends StoreUnit>> readCatalogue(@ApiParam(value = "Catalog id to read mission object", required = true) @PathVariable(value="id") int id){
-		log.info("Reading a catalogue ...");
-		Catalogue catalogue = catalogueRepo.findById(id).orElseThrow(() -> new CatalogueNotFoundException(id));
-		List<EntityModel<? extends StoreUnit>> resources = new LinkedList<>();
-		EntityModel<Catalogue> catalogueResource = catalogueAssembler.toModel(catalogue);
-		resources.add(catalogueResource);
-		List<EntityModel<Product>> productResources = catalogue.getCatalogProducts()
-					.stream().map(productAssembler::toModel)
-					.collect(Collectors.toList());
-		resources.addAll(productResources);
-		return new CollectionModel<>(resources, catalogueResource.getRequiredLink(IanaLinkRelations.SELF));
-	}
+    private final CatalogueRepository catalogueRepo;
+
+    private final CatalogueResourceAssembler catalogueAssembler;
+
+    private final ProductResourceAssembler productAssembler;
+
+    public CatalogueController(CatalogueRepository catalogueRepo, CatalogueResourceAssembler catalogueAssembler,
+                               ProductResourceAssembler productAssembler) {
+        this.catalogueRepo = catalogueRepo;
+        this.catalogueAssembler = catalogueAssembler;
+        this.productAssembler = productAssembler;
+    }
+
+    @ApiOperation(value = "Read catalogue's information")
+    @GetMapping("/{id}")
+    public CollectionModel<EntityModel<? extends StoreUnit>> readCatalogue(@ApiParam(value = "Catalog id to read mission object", required = true) @PathVariable(value = "id") int id) {
+        log.info("Reading a catalogue ...");
+        Catalogue catalogue = catalogueRepo.findById(id)
+                .orElseThrow(() -> new CatalogueNotFoundException(id));
+        List<EntityModel<? extends StoreUnit>> resources = new LinkedList<>();
+        EntityModel<Catalogue> catalogueResource = catalogueAssembler.toModel(catalogue);
+        resources.add(catalogueResource);
+        List<EntityModel<Product>> productResources = catalogue.getCatalogProducts()
+                .stream().map(productAssembler::toModel)
+                .collect(Collectors.toList());
+        resources.addAll(productResources);
+        return new CollectionModel<>(resources, catalogueResource.getRequiredLink(IanaLinkRelations.SELF));
+    }
 }

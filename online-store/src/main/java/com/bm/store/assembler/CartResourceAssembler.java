@@ -17,14 +17,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class CartResourceAssembler implements RepresentationModelAssembler<Cart, EntityModel<Cart>> {
 
-	@Override
-	public EntityModel<Cart> toModel(Cart cart) {
-		Set<Link> links = new LinkedHashSet<>();
-		links.add(linkTo(methodOn(CartController.class).readCart()).withSelfRel());
-		
-		cart.getSelectedProducts().forEach((p,q) -> 
-			links.add(linkTo(methodOn(ProductController.class).readProduct(p.getId())).withRel("products")));
-		
-		return new EntityModel<>(cart, links);
-	}
+    @Override
+    public EntityModel<Cart> toModel(Cart cart) {
+        Set<Link> links = new LinkedHashSet<>();
+        links.add(linkTo(methodOn(CartController.class)
+                .readCart())
+                .withSelfRel());
+        cart.getSelectedProducts().forEach((p, q) ->
+                links.add(linkTo(methodOn(ProductController.class)
+                        .readProduct(p.getId()))
+                        .withRel("products")));
+        return new EntityModel<>(cart, links);
+    }
 }

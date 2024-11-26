@@ -1,7 +1,6 @@
 package com.bm.store.exception;
 
 public class ProductNotFoundException extends RuntimeException {
-
 	/**
 	 * 
 	 */
@@ -10,7 +9,4 @@ public class ProductNotFoundException extends RuntimeException {
 	public ProductNotFoundException(long id) {
 		super("Could not find the product " + id);
 	}
-	
-	
-
 }

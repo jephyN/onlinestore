@@ -30,14 +30,16 @@ class ProductControllerTest {
                 "\"price\":10.00,\"taxable\":true,\"_links\":{\"self\":{\"href\":\"http://localhost/api/product/1\"}}}";
 
         this.mockMvc.perform(get("/api/product/1"))
-                .andDo(print()).andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().json(expectedProduct));
     }
 
     @Test
     void getProduct_whenProductIdIsNotFound_thenShouldReturn404() throws Exception {
         this.mockMvc.perform(get("/api/product/-1"))
-                .andDo(print()).andExpect(status().isNotFound())
+                .andDo(print())
+                .andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product -1"));
     }
 }

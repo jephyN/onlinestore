@@ -1,7 +1,6 @@
 package com.bm.store.exception;
 
 public class CartMissingItemException extends RuntimeException {
-
 	/**
 	 *
 	 */
@@ -10,6 +9,4 @@ public class CartMissingItemException extends RuntimeException {
 	public CartMissingItemException(int id) {
 		super("Could not find the product " + id + " in the cart.");
 	}
-
-	
 }
