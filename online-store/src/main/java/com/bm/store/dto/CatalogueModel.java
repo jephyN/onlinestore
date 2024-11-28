@@ -1,10 +1,13 @@
-package com.bm.store.model;
+package com.bm.store.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -16,14 +19,12 @@ import java.util.Set;
  * @since 2019-07-07
  */
 @ApiModel(description = "All details about the catalague. ")
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Builder
-public class Catalogue extends StoreUnit {
+public class CatalogueModel extends RepresentationModel<CatalogueModel> {
 
     @ApiModelProperty(notes = "The database generated catalogue ID")
     @Id
@@ -42,9 +43,7 @@ public class Catalogue extends StoreUnit {
     private LocalDate endDate;
 
     @ApiModelProperty(notes = "the products of the catalogue")
-    @JoinTable(name = "CATALOG_PRODUCTS", joinColumns = @JoinColumn(name = "CATALOGUE_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
-    @ManyToMany
     @NotEmpty
-    private Set<Product> catalogProducts;
+    private Set<ProductModel> catalogProducts;
 
 }

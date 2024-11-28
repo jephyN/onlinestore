@@ -4,7 +4,7 @@
 ## Requirements
 In order to build the project successfully you should have the following installed and configured on your work station:
 
-1. Java 11
+1. Java 17
 2. Maven 3.x.y where y >=0 and x >= 5
 
 ## Build

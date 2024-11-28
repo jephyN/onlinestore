@@ -1,10 +1,14 @@
 package com.bm.store.assembler;
 
+import com.bm.store.dto.CatalogueModel;
+import com.bm.store.dto.ProductModel;
 import com.bm.store.model.Catalogue;
 import com.bm.store.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.hateoas.EntityModel;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.springframework.hateoas.IanaLinkRelations;
 
 import java.time.LocalDate;
@@ -15,35 +19,63 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CatalogueResourceAssemblerTest {
 
-	CatalogueResourceAssembler assembler;
+    CatalogueResourceAssembler assembler;
+    ProductResourceAssembler productResourceAssembler;
 
-	@BeforeEach
-	void setUp() {
-		assembler = new CatalogueResourceAssembler();
-	}
 
-	@Test
-	void buildCatalogResource() {
-		/* Given */
-		Product product = new Product();
-		Set<Product> products = new HashSet<>();
-		product.setId(1);
-		products.add(product);
+    @BeforeEach
+    void setUp() {
+        productResourceAssembler = new ProductResourceAssembler();
+        assembler = new CatalogueResourceAssembler(productResourceAssembler);
+    }
 
-		Catalogue catalogue = Catalogue.builder()
-				.id(1)
-				.startDate(LocalDate.now())
-				.endDate(LocalDate.now().plusMonths(3))
-				.catalogProducts(products)
-				.build();
+    @Test
+    void toModel_whenCatalogueNotEmpty_shouldReturnNonEmptyCatalogueModel() {
+        /* Given */
+        Product product = new Product();
+        Set<Product> products = new HashSet<>();
+        product.setId(1);
+        product.setName("myProduct");
+        products.add(product);
 
-		/* When */
-		EntityModel<Catalogue> resource = assembler.toModel(catalogue);
+        Catalogue catalogue = Catalogue.builder()
+                .id(1)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusMonths(3))
+                .catalogProducts(products)
+                .build();
 
-		/* Then */
-		assertThat(resource).isNotNull();
-		assertThat(catalogue).isEqualTo(resource.getContent());
-		assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
-	}
+        /* When */
+        CatalogueModel resource = assembler.toModel(catalogue);
+
+        /* Then */
+        assertThat(resource).isNotNull();
+        assertThat(resource).extracting("id", "startDate", "endDate", "catalogProducts")
+                .contains(1, LocalDate.now(), LocalDate.now().plusMonths(3),
+                        Set.of(ProductModel.builder().id(1).name("myProduct").build()));
+        assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @EmptySource
+    void toModel_whenCatalogueHasNoProducts_shouldReturnCatalogueModelWithoutProducts(Set<Product> products) {
+        /* Given */
+        Catalogue catalogue = Catalogue.builder()
+                .id(1)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusMonths(3))
+                .catalogProducts(products)
+                .build();
+
+        /* When */
+        CatalogueModel resource = assembler.toModel(catalogue);
+
+        /* Then */
+        assertThat(resource).isNotNull();
+        assertThat(resource).extracting("id", "startDate", "endDate", "catalogProducts")
+                .contains(1, LocalDate.now(), LocalDate.now().plusMonths(3), Set.of());
+        assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
+    }
 
 }

@@ -24,7 +24,7 @@ class ProductControllerTest {
 
     @Test
     void getProduct_whenProductIdExists_thenShouldReturnProduct() throws Exception {
-        String expectedProduct = "{\"id\":1,\"productCode\":\"KM45\",\"name\":\"RDS\",\"productType\":\"Channel\"," +
+        String expectedProduct = "{\"productCode\":\"KM45\",\"name\":\"RDS\",\"productType\":\"Channel\"," +
                 "\"description\":\"Sport channel in french\"," +
                 "\"imageUrl\":\"https://rdsimages.cookieless.ca/polopoly_fs/1.6843299.1562016209!/img/httpImage/image.jpg\"," +
                 "\"price\":10.00,\"taxable\":true,\"_links\":{\"self\":{\"href\":\"http://localhost/api/product/1\"}}}";

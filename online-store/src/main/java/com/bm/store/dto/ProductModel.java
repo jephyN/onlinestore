@@ -1,9 +1,14 @@
-package com.bm.store.model;
+package com.bm.store.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -13,14 +18,15 @@ import java.math.BigDecimal;
  * @version 1.0
  * @since 2019-07-07
  */
-@Entity
 @Getter
 @Setter
 @ToString
+@Relation(collectionRelation = "products")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @EqualsAndHashCode(callSuper = false)
-public class Product extends StoreUnit {
+public class ProductModel extends RepresentationModel<ProductModel> {
 
     @ApiModelProperty(notes = "The database generated product ID")
     @Id

@@ -2,6 +2,7 @@ package com.bm.store.controller;
 
 import com.bm.store.assembler.ProductResourceAssembler;
 import com.bm.store.dao.ProductRepository;
+import com.bm.store.dto.ProductModel;
 import com.bm.store.exception.ProductNotFoundException;
 import com.bm.store.model.Product;
 import io.swagger.annotations.Api;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductRepository productRepository;
-
     private final ProductResourceAssembler assembler;
 
     public ProductController(ProductRepository productRepository, ProductResourceAssembler assembler) {
@@ -31,7 +31,7 @@ public class ProductController {
 
     @ApiOperation(value = "Read product's information")
     @GetMapping("/{id}")
-    public EntityModel<Product> readProduct(@ApiParam(value = "Product id to read mission object", required = true) @PathVariable(value = "id") long id) {
+    public ProductModel readProduct(@ApiParam(value = "Product id to read mission object", required = true) @PathVariable(value = "id") long id) {
         log.info("Reading a product ...");
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));

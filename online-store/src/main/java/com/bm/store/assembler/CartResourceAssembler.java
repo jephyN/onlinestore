@@ -27,6 +27,6 @@ public class CartResourceAssembler implements RepresentationModelAssembler<Cart,
                 links.add(linkTo(methodOn(ProductController.class)
                         .readProduct(p.getId()))
                         .withRel("products")));
-        return new EntityModel<>(cart, links);
+        return EntityModel.of(cart, links);
     }
 }
