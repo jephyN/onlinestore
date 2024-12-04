@@ -5,6 +5,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,10 +21,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class AccountControllerTest {
 
+
+
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
+    @WithAnonymousUser
     void connects_whenRequestHasNeitherUserNorPassword_shouldReturn401() throws Exception {
         this.mockMvc.perform(post("/api/account"))
                 .andExpect(status().isUnauthorized());
@@ -47,13 +53,15 @@ class AccountControllerTest {
     }
 
     @Test
+    @WithUserDetails()
     public void connects_whenRequestHasValidUserAndPassword_shouldReturnConnected() throws Exception {
-        this.mockMvc.perform(post("/api/account").with(httpBasic("user", "password")))
+        this.mockMvc.perform(post("/api/account"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Connected!!"));
     }
 
     @Test
+    @WithAnonymousUser
     public void disconnects_whenRequestHasNeitherUserNorPassword_shouldReturn401() throws Exception {
         this.mockMvc.perform(delete("/api/account"))
                 .andExpect(status().isUnauthorized());
@@ -78,6 +86,7 @@ class AccountControllerTest {
     }
 
     @Test
+    @WithUserDetails()
     public void disconnects_whenRequestHasValidUserAndPassword_shouldReturnDisconnected() throws Exception {
         this.mockMvc.perform(delete("/api/account").with(httpBasic("user", "password")))
                 .andExpect(status().isOk())

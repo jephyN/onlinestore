@@ -5,12 +5,6 @@ import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -29,21 +23,15 @@ import java.math.BigDecimal;
 public class ProductModel extends RepresentationModel<ProductModel> {
 
     @ApiModelProperty(notes = "The database generated product ID")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PRODUCT_ID")
     protected long id;
 
     @ApiModelProperty(notes = "The code of the product")
-    @NotBlank
     protected String productCode;
 
     @ApiModelProperty(notes = "The name of the product")
-    @NotBlank
     protected String name;
 
     @ApiModelProperty(notes = "The type of the product")
-    @NotBlank
     protected String productType;
 
     @ApiModelProperty(notes = "The description of the product")
@@ -53,7 +41,6 @@ public class ProductModel extends RepresentationModel<ProductModel> {
     protected String imageUrl;
 
     @ApiModelProperty(notes = "The price of the product")
-    @NotNull
     protected BigDecimal price;
 
     @ApiModelProperty(notes = "defines if the product is taxable")

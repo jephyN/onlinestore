@@ -11,10 +11,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 
 @RestController
@@ -23,7 +23,7 @@ import java.util.Optional;
 @Slf4j
 public class CartController {
 
-    @javax.annotation.Resource(name = "customerCart")
+    @Resource(name = "customerCart")
     private Cart cart;
     private final CartResourceAssembler cartResourceAssembler;
     private final CartService cartService;
