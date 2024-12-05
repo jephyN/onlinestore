@@ -7,19 +7,19 @@ import com.bm.store.exception.ProductNotFoundException;
 import com.bm.store.model.Cart;
 import com.bm.store.model.Product;
 import com.bm.store.service.CartService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cart")
-@Api(value = "Cart Management")
+@Tag(name = "Cart Management")
 @Slf4j
 public class CartController {
 
@@ -36,18 +36,18 @@ public class CartController {
         this.productRepository = productRepository;
     }
 
-    @ApiOperation(value = "Read cart's information")
+    @Operation(summary = "Read cart's information")
     @GetMapping
     public EntityModel<Cart> readCart() {
         log.info("Reading a cart ...");
         return cartResourceAssembler.toModel(cart);
     }
 
-    @ApiOperation(value = "Add a product in the cart")
+    @Operation(summary = "Add a product in the cart")
     @PatchMapping("/product/{id}")
     public EntityModel<Cart> addProductToCart(
-            @ApiParam(value = "Product id to add", required = true) @PathVariable(value = "id") long id,
-            @ApiParam(value = "quantity to add", required = true) @RequestParam("qt") long qt) {
+            @Parameter(name = "Product id to add", required = true) @PathVariable(value = "id") long id,
+            @Parameter(name = "quantity to add", required = true) @RequestParam("qt") long qt) {
         log.info("adding a product to cart ...");
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
@@ -55,11 +55,11 @@ public class CartController {
         return cartResourceAssembler.toModel(cart);
     }
 
-    @ApiOperation(value = "Remove a product from cart")
+    @Operation(summary = "Remove a product from cart")
     @DeleteMapping("/product/{id}")
     public EntityModel<Cart> removeProductFromCart(
-            @ApiParam(value = "Product id to remove", required = true) @PathVariable(value = "id") long id,
-            @ApiParam(value = "quantity to remove", required = true) @RequestParam("qt") long qt) {
+            @Parameter(name = "Product id to remove", required = true) @PathVariable(value = "id") long id,
+            @Parameter(name = "quantity to remove", required = true) @RequestParam("qt") long qt) {
         log.info("removing a product to cart ...");
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));

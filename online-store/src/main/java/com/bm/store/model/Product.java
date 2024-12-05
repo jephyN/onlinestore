@@ -1,11 +1,10 @@
 package com.bm.store.model;
 
-import io.swagger.annotations.ApiModelProperty;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -22,34 +21,26 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = false)
 public class Product extends StoreUnit {
 
-    @ApiModelProperty(notes = "The database generated product ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRODUCT_ID")
     protected long id;
 
-    @ApiModelProperty(notes = "The code of the product")
     @NotBlank
     protected String productCode;
 
-    @ApiModelProperty(notes = "The name of the product")
     @NotBlank
     protected String name;
 
-    @ApiModelProperty(notes = "The type of the product")
     @NotBlank
     protected String productType;
 
-    @ApiModelProperty(notes = "The description of the product")
     protected String description;
 
-    @ApiModelProperty(notes = "The URL of the product's image")
     protected String imageUrl;
 
-    @ApiModelProperty(notes = "The price of the product")
     @NotNull
     protected BigDecimal price;
 
-    @ApiModelProperty(notes = "defines if the product is taxable")
     protected boolean isTaxable;
 }

@@ -1,6 +1,6 @@
 package com.bm.store.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
@@ -12,6 +12,7 @@ import java.math.BigDecimal;
  * @version 1.0
  * @since 2019-07-07
  */
+@Schema(description = "All details about the product.")
 @Getter
 @Setter
 @ToString
@@ -22,27 +23,27 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = false)
 public class ProductModel extends RepresentationModel<ProductModel> {
 
-    @ApiModelProperty(notes = "The database generated product ID")
+    @Schema(description = "The database generated product ID")
     protected long id;
 
-    @ApiModelProperty(notes = "The code of the product")
+    @Schema(description = "The code of the product")
     protected String productCode;
 
-    @ApiModelProperty(notes = "The name of the product")
+    @Schema(description = "The name of the product")
     protected String name;
 
-    @ApiModelProperty(notes = "The type of the product")
+    @Schema(description = "The type of the product")
     protected String productType;
 
-    @ApiModelProperty(notes = "The description of the product")
+    @Schema(description = "The description of the product")
     protected String description;
 
-    @ApiModelProperty(notes = "The URL of the product's image")
+    @Schema(description = "The URL of the product's image")
     protected String imageUrl;
 
-    @ApiModelProperty(notes = "The price of the product")
+    @Schema(description = "The price of the product")
     protected BigDecimal price;
 
-    @ApiModelProperty(notes = "defines if the product is taxable")
+    @Schema(description = "defines if the product is taxable")
     protected boolean isTaxable;
 }

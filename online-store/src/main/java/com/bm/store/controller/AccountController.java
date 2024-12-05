@@ -1,7 +1,7 @@
 package com.bm.store.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/account")
-@Api(value = "Account Management")
+@Tag(name = "Account Management")
 @Slf4j
 public class AccountController {
 
-    @ApiOperation(value = "Connect to account")
+    @Operation(summary = "Connect to account")
     @PostMapping
     public ResponseEntity<String> connects() {
         log.info("Connecting ...");
         return ResponseEntity.ok("Connected!!");
     }
 
-    @ApiOperation(value = "Disconnect from account")
+    @Operation(summary = "Disconnect from account")
     @DeleteMapping
     public ResponseEntity<String> disconnects() {
         log.info("Disconnecting ...");
