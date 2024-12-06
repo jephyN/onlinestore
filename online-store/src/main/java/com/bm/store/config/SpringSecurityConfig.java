@@ -36,8 +36,8 @@ public class SpringSecurityConfig {
         return http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests.requestMatchers(HttpMethod.POST,"/api/account/**").hasAnyRole(USER,ADMIN)
                         .requestMatchers(HttpMethod.DELETE,"/api/account/**").hasAnyRole(USER, ADMIN)
-                        .requestMatchers("/api/cart/**", "/api/catalogue/**", "/api/product/**",
-                                "/swagger-ui/**", "/v3/api-docs/**", "/favicon.ico")
+                        .requestMatchers("/api/cart/**", "/api/catalogue/**", "/api/product/**", "/actuator/**",
+                                "/swagger-ui/**", "/v3/api-docs/**", "/favicon.ico", "/explorer/**", "/")
                         .permitAll())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
