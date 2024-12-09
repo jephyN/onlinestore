@@ -17,7 +17,7 @@ import java.util.Map;
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)
-public class Cart extends StoreUnit {
+public final class Cart extends StoreUnit {
 
 	/**
 	 * selected products in the cart

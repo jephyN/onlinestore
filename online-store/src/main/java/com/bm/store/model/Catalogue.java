@@ -20,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Builder
-public class Catalogue extends StoreUnit {
+public non-sealed class Catalogue extends StoreUnit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

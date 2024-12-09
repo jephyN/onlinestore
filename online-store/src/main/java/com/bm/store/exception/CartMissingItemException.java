@@ -2,7 +2,7 @@ package com.bm.store.exception;
 
 import java.io.Serial;
 
-public class CartMissingItemException extends RuntimeException {
+public final class CartMissingItemException extends RuntimeException {
 	/**
 	 *
 	 */

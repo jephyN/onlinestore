@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Data
 @EqualsAndHashCode(callSuper = false, exclude = {"quantity"})
-public class CartItem extends Product {
+public final class CartItem extends Product {
 
 	private long quantity;
 
