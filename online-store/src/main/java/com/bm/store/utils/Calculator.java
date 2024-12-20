@@ -31,6 +31,7 @@ public class Calculator {
     public BigDecimal getTotal(Cart cart, final Function<CartItem, BigDecimal> function) {
         return cart.getCartItems().stream()
                 .map(function)
+                .parallel()
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .setScale(2, RoundingMode.HALF_EVEN);
     }
