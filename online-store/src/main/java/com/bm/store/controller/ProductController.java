@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductRepository productRepository;
-    private final ProductResourceAssembler assembler;
+    private final ProductResourceAssembler productResourceAssembler;
 
-    public ProductController(ProductRepository productRepository, ProductResourceAssembler assembler) {
+    public ProductController(ProductRepository productRepository, ProductResourceAssembler productResourceAssembler) {
         this.productRepository = productRepository;
-        this.assembler = assembler;
+        this.productResourceAssembler = productResourceAssembler;
     }
 
     @Operation(summary = "Read product's information")
@@ -34,6 +34,6 @@ public class ProductController {
         log.info("Reading a product ...");
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
-        return assembler.toModel(product);
+        return productResourceAssembler.toModel(product);
     }
 }

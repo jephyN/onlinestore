@@ -53,7 +53,7 @@ class CartControllerTest {
     void addProductToCart_whenCartIsEmpty_shouldReturnCartWithOneProduct() throws Exception {
         String expectedCartWithOneProduct = """
                 {"selectedProducts":
-                {"Product(id=1, productCode=KM45, name=RDS, productType=Channel, description=Sport channel in french, imageUrl=https://rdsimages.cookieless.ca/polopoly_fs/1.6843299.1562016209!/img/httpImage/image.jpg, price=10.00, isTaxable=true)":1},
+                {"Product(id=1, productCode=KM45, name=RDS, productType=Channel, description=Sport channel in french, imageUrl=https://rdsimages.cookieless.ca/polopoly_fs/1.6843299.1562016209!/img/httpImage/image.jpg, price=10.00, taxable=true)":1},
                 "totalTaxes":1.3,
                 "totalPrice":11.3,
                 "cartItems":[{
@@ -61,7 +61,9 @@ class CartControllerTest {
                     "productCode":"KM45","name":"RDS","productType":"Channel",
                     "description":"Sport channel in french",
                     "imageUrl":"https://rdsimages.cookieless.ca/polopoly_fs/1.6843299.1562016209!/img/httpImage/image.jpg",
-                    "price":10.00,"quantity":1,"taxable":true
+                    "price":10.00,
+                    "quantity":1,
+                    "taxable":true
                 }],
                 "_links":{
                     "self":{

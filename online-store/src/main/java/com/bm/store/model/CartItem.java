@@ -14,8 +14,8 @@ public final class CartItem extends Product {
 
 	@Builder 
 	public CartItem(long id, String productCode, String name, String productType, String description, String imageUrl,
-			BigDecimal price,boolean isTaxable, long quantity) {
-		super(id, productCode, name, productType, description, imageUrl, price, isTaxable);
+			BigDecimal price,boolean taxable, long quantity) {
+		super(id, productCode, name, productType, description, imageUrl, price, taxable);
 		this.quantity = quantity;
 	}
 

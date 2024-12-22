@@ -42,5 +42,6 @@ public non-sealed class Product extends StoreUnit {
     @NotNull
     protected BigDecimal price;
 
-    protected boolean isTaxable;
+    @Column(name = "IS_TAXABLE")
+    protected boolean taxable;
 }

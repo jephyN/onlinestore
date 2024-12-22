@@ -2,6 +2,8 @@ package com.bm.store.assembler;
 
 import com.bm.store.dto.CatalogueModel;
 import com.bm.store.dto.ProductModel;
+import com.bm.store.mapper.ProductMapper;
+import com.bm.store.mapper.ProductMapperImpl;
 import com.bm.store.model.Catalogue;
 import com.bm.store.model.Product;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,11 +23,12 @@ class CatalogueResourceAssemblerTest {
 
     CatalogueResourceAssembler assembler;
     ProductResourceAssembler productResourceAssembler;
-
+    ProductMapper productMapper;
 
     @BeforeEach
     void setUp() {
-        productResourceAssembler = new ProductResourceAssembler();
+        productMapper = new ProductMapperImpl();
+        productResourceAssembler = new ProductResourceAssembler(productMapper);
         assembler = new CatalogueResourceAssembler(productResourceAssembler);
     }
 

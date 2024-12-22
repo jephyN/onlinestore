@@ -45,5 +45,5 @@ public class ProductModel extends RepresentationModel<ProductModel> {
     private BigDecimal price;
 
     @Schema(description = "defines if the product is taxable")
-    private boolean isTaxable;
+    private boolean taxable;
 }

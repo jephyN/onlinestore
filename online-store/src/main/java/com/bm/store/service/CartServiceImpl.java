@@ -50,7 +50,7 @@ public class CartServiceImpl implements CartService {
                     .productType(k.getProductType())
                     .description(k.getDescription())
                     .imageUrl(k.getImageUrl())
-                    .isTaxable(k.isTaxable())
+                    .taxable(k.isTaxable())
                     .price(k.getPrice())
                     .quantity(v)
                     .build();

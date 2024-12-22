@@ -1,6 +1,8 @@
 package com.bm.store.assembler;
 
 import com.bm.store.dto.ProductModel;
+import com.bm.store.mapper.ProductMapper;
+import com.bm.store.mapper.ProductMapperImpl;
 import com.bm.store.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,10 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProductResourceAssemblerTest {
 
     ProductResourceAssembler assembler;
+    ProductMapper productMapper;
 
     @BeforeEach
     void setUp() {
-        assembler = new ProductResourceAssembler();
+        productMapper = new ProductMapperImpl();
+        assembler = new ProductResourceAssembler(productMapper);
     }
 
     @Test
