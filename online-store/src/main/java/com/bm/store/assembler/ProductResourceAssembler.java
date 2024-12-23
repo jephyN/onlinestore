@@ -32,4 +32,6 @@ public class ProductResourceAssembler extends RepresentationModelAssemblerSuppor
                 .readProduct(product.getId()))
                 .withSelfRel());
     }
+
+
 }

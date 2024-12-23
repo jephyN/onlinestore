@@ -2,6 +2,7 @@ package com.bm.store.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
@@ -33,6 +34,6 @@ public class CatalogueModel extends RepresentationModel<CatalogueModel> {
     private LocalDate endDate;
 
     @Schema(description = "the products of the catalogue")
-    private Set<ProductModel> catalogProducts;
+    private CollectionModel<ProductModel> catalogProducts;
 
 }

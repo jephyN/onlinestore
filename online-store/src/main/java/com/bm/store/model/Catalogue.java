@@ -1,7 +1,6 @@
 package com.bm.store.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -36,7 +35,6 @@ public non-sealed class Catalogue extends StoreUnit {
 
     @JoinTable(name = "CATALOG_PRODUCTS", joinColumns = @JoinColumn(name = "CATALOGUE_ID"), inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
     @ManyToMany
-    @NotEmpty
     private Set<Product> catalogProducts;
 
 }

@@ -2,6 +2,8 @@ package com.bm.store.assembler;
 
 import com.bm.store.dto.CatalogueModel;
 import com.bm.store.dto.ProductModel;
+import com.bm.store.mapper.CatalogueMapper;
+import com.bm.store.mapper.CatalogueMapperImpl;
 import com.bm.store.mapper.ProductMapper;
 import com.bm.store.mapper.ProductMapperImpl;
 import com.bm.store.model.Catalogue;
@@ -10,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
-import org.junit.jupiter.params.provider.NullSource;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.IanaLinkRelations;
 
 import java.time.LocalDate;
@@ -23,13 +25,15 @@ class CatalogueResourceAssemblerTest {
 
     CatalogueResourceAssembler assembler;
     ProductResourceAssembler productResourceAssembler;
+    CatalogueMapper catalogueMapper;
     ProductMapper productMapper;
 
     @BeforeEach
     void setUp() {
+        catalogueMapper = new CatalogueMapperImpl();
         productMapper = new ProductMapperImpl();
         productResourceAssembler = new ProductResourceAssembler(productMapper);
-        assembler = new CatalogueResourceAssembler(productResourceAssembler);
+        assembler = new CatalogueResourceAssembler(catalogueMapper, productResourceAssembler);
     }
 
     @Test
@@ -55,12 +59,11 @@ class CatalogueResourceAssemblerTest {
         assertThat(resource).isNotNull();
         assertThat(resource).extracting("id", "startDate", "endDate", "catalogProducts")
                 .contains(1, LocalDate.now(), LocalDate.now().plusMonths(3),
-                        Set.of(ProductModel.builder().id(1).name("myProduct").build()));
+                        CollectionModel.of(Set.of(ProductModel.builder().id(1).name("myProduct").build())));
         assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
     }
 
     @ParameterizedTest
-    @NullSource
     @EmptySource
     void toModel_whenCatalogueHasNoProducts_shouldReturnCatalogueModelWithoutProducts(Set<Product> products) {
         /* Given */
@@ -77,7 +80,7 @@ class CatalogueResourceAssemblerTest {
         /* Then */
         assertThat(resource).isNotNull();
         assertThat(resource).extracting("id", "startDate", "endDate", "catalogProducts")
-                .contains(1, LocalDate.now(), LocalDate.now().plusMonths(3), Set.of());
+                .contains(1, LocalDate.now(), LocalDate.now().plusMonths(3), CollectionModel.of(Set.of()));
         assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
     }
 

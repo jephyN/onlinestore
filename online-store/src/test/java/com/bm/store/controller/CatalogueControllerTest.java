@@ -1,5 +1,7 @@
 package com.bm.store.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,41 +33,47 @@ class CatalogueControllerTest {
 
     @Test
     void readCatalogue_whenCatalogueIdExists_thenShouldReturn200() throws Exception {
+        ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String expectedCatalogue = """
                 {
                   "id" : 6, 
                   "region" : "Short", 
                   "startDate" : "2024-07-01", 
                   "endDate" : "2024-12-31", 
-                  "catalogProducts" : [ { 
-                  "id" : 8, 
-                  "productCode" : "BPM45", 
-                  "name" : "Game of thrones", 
-                  "productType" : "TV show", 
-                  "description" : null, 
-                  "imageUrl" : null, 
-                  "price" : 4.99, 
-                  "taxable" : true, 
-                  "_links" : { 
-                    "self" : {
-                      "href" : "http://localhost/api/product/8"
-                    }
-                  } 
-                }, {
-                  "id" : 7, 
-                  "productCode" : "KM77", 
-                  "name" : "HBO", 
-                  "productType" : "Channel", 
-                  "description" : "Movies and TV shows channel", 
-                  "imageUrl" : "https://asset.entpay.9c9media.ca/image-service/version/c:YTNjOWRjMTMtZDQzNi00:NDk3NDA2/image.png", 
-                  "price" : 5.00, 
-                  "taxable" : true, 
-                  "_links" : {
-                    "self" : {
-                      "href" : "http://localhost/api/product/7"
+                  "catalogProducts" : {
+                    "_embedded" : {
+                      "products" :  [ { 
+                          "id" : 8, 
+                          "productCode" : "BPM45", 
+                          "name" : "Game of thrones", 
+                          "productType" : "TV show", 
+                          "description" : null, 
+                          "imageUrl" : null, 
+                          "price" : 4.99, 
+                          "taxable" : true, 
+                          "_links" : { 
+                            "self" : {
+                              "href" : "http://localhost/api/product/8"
+                            }
+                          } 
+                        }, {
+                          "id" : 7, 
+                          "productCode" : "KM77", 
+                          "name" : "HBO", 
+                          "productType" : "Channel", 
+                          "description" : "Movies and TV shows channel", 
+                          "imageUrl" : "https://asset.entpay.9c9media.ca/image-service/version/c:YTNjOWRjMTMtZDQzNi00:NDk3NDA2/image.png", 
+                          "price" : 5.00, 
+                          "taxable" : true, 
+                          "_links" : {
+                            "self" : {
+                              "href" : "http://localhost/api/product/7"
+                            }
+                          }
+                      } ]
                     }
                   }
-                } ], 
+                  , 
                 "_links" : { 
                   "self" : {
                     "href" : "http://localhost/api/catalogue/6" 

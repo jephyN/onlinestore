@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CatalogueController {
 
     private final CatalogueRepository catalogueRepo;
-    private final CatalogueResourceAssembler catalogueAssembler;
+    private final CatalogueResourceAssembler catalogueResourceAssembler;
 
     public CatalogueController(CatalogueRepository catalogueRepo,
-                               CatalogueResourceAssembler catalogueAssembler) {
+                               CatalogueResourceAssembler catalogueResourceAssembler) {
         this.catalogueRepo = catalogueRepo;
-        this.catalogueAssembler = catalogueAssembler;
+        this.catalogueResourceAssembler = catalogueResourceAssembler;
     }
 
     @Operation(summary = "Read catalogue's information")
@@ -35,6 +35,6 @@ public class CatalogueController {
         log.info("Reading a catalogue ...");
         Catalogue catalogue = catalogueRepo.findById(id)
                 .orElseThrow(() -> new CatalogueNotFoundException(id));
-        return catalogueAssembler.toModel(catalogue);
+        return catalogueResourceAssembler.toModel(catalogue);
     }
 }
