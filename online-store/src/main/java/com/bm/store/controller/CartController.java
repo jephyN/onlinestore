@@ -10,6 +10,7 @@ import com.bm.store.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/cart")
 @Tag(name = "Cart Management")
@@ -28,13 +30,6 @@ public class CartController {
     private final CartResourceAssembler cartResourceAssembler;
     private final CartService cartService;
     private final ProductRepository productRepository;
-
-    public CartController(CartResourceAssembler cartResourceAssembler,
-                          CartService cartService, ProductRepository productRepository) {
-        this.cartResourceAssembler = cartResourceAssembler;
-        this.cartService = cartService;
-        this.productRepository = productRepository;
-    }
 
     @Operation(summary = "Read cart's information")
     @GetMapping
