@@ -1,10 +1,9 @@
 package com.bm.store.controller;
 
 import com.bm.store.assembler.ProductResourceAssembler;
-import com.bm.store.dao.ProductRepository;
 import com.bm.store.dto.ProductModel;
-import com.bm.store.exception.ProductNotFoundException;
 import com.bm.store.model.Product;
+import com.bm.store.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,15 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
     private final ProductResourceAssembler productResourceAssembler;
 
     @Operation(summary = "Read product's information")
     @GetMapping("/{id}")
     public ProductModel readProduct(@Parameter(name = "Product id to read mission object", required = true) @PathVariable(value = "id") long id) {
         log.info("Reading a product ...");
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id));
+        Product product = productService.getProduct(id);
         return productResourceAssembler.toModel(product);
     }
 }
