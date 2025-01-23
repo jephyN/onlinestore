@@ -2,7 +2,6 @@ package com.bm.store.service;
 
 import com.bm.store.model.Cart;
 import com.bm.store.model.Product;
-
 import com.bm.store.utils.Calculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CartServiceTest {
 
     CartService cartService;
-    Calculator calculator;
 
     @BeforeEach
     void setUp() {
-        calculator = new Calculator();
+        Calculator calculator = new Calculator();
         cartService = new CartServiceImpl(calculator);
     }
 

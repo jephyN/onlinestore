@@ -1,10 +1,9 @@
-package com.bm.store.model;
+package com.bm.store.dto;
 
+import com.bm.store.model.Product;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.math.BigDecimal;
 
 @Data
 @EqualsAndHashCode(callSuper = false, exclude = {"quantity"})

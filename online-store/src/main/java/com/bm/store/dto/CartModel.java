@@ -1,8 +1,5 @@
 package com.bm.store.dto;
 
-import com.bm.store.model.CartItem;
-import com.bm.store.model.Product;
-import com.bm.store.model.StoreUnit;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Jephy
@@ -21,7 +17,7 @@ import java.util.Map;
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = false)
-public final class CartModel extends RepresentationModel<CartModel> {
+public class CartModel extends RepresentationModel<CartModel> {
 
 	@Schema(description = "Total taxes of the cart")
 	private Double totalTaxes;

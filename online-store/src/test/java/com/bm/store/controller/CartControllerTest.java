@@ -52,25 +52,30 @@ class CartControllerTest {
     @Order(3)
     void addProductToCart_whenCartIsEmpty_shouldReturnCartWithOneProduct() throws Exception {
         String expectedCartWithOneProduct = """
-                {"selectedProducts":
-                {"Product(id=1, productCode=KM45, name=RDS, productType=Channel, description=Sport channel in french, imageUrl=https://rdsimages.cookieless.ca/polopoly_fs/1.6843299.1562016209!/img/httpImage/image.jpg, price=10.00, taxable=true)":1},
+                {
                 "totalTaxes":1.3,
                 "totalPrice":11.3,
                 "cartItems":[{
-                    "id":1,
-                    "productCode":"KM45","name":"RDS","productType":"Channel",
-                    "description":"Sport channel in french",
-                    "imageUrl":"https://rdsimages.cookieless.ca/polopoly_fs/1.6843299.1562016209!/img/httpImage/image.jpg",
-                    "price":10.00,
-                    "quantity":1,
-                    "taxable":true
+                  "product" : {
+                    "productCode" : "KM45",
+                    "name" : "RDS",
+                    "productType" : "Channel",
+                    "description" : "Sport channel in french",
+                    "imageUrl" : "https://rdsimages.cookieless.ca/polopoly_fs/1.6843299.1562016209!/img/httpImage/image.jpg",
+                    "price" : 10.00,
+                    "taxable" : true
+                  },
+                  "quantity" : 1
                 }],
                 "_links":{
                     "self":{
                     "href":"http://localhost/api/cart"
                    },
                     "products":{
-                      "href":"http://localhost/api/product/1"
+                      "href":"http://localhost/api/product/1",
+                      "title": "KM45",
+                      "type": "Channel",
+                      "name": "RDS"
                     }
                   }
                 }""";

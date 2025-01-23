@@ -13,11 +13,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProductResourceAssemblerTest {
 
     ProductResourceAssembler assembler;
-    ProductMapper productMapper;
 
     @BeforeEach
     void setUp() {
-        productMapper = new ProductMapperImpl();
+        ProductMapper productMapper = new ProductMapperImpl();
         assembler = new ProductResourceAssembler(productMapper);
     }
 

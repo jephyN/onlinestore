@@ -1,7 +1,7 @@
 package com.bm.store.service;
 
 import com.bm.store.model.Cart;
-import com.bm.store.model.CartItem;
+import com.bm.store.dto.CartItem;
 import com.bm.store.model.Product;
 import com.bm.store.utils.Calculator;
 import org.springframework.stereotype.Service;
@@ -42,17 +42,10 @@ public class CartServiceImpl implements CartService {
 
     private void manageCartItems(Cart cart) {
         List<CartItem> cartItems = new ArrayList<>();
-        getSelectedProducts(cart).forEach((k, v) -> {
+        getSelectedProducts(cart).forEach((product, quantity) -> {
             CartItem cartItem = CartItem.builder()
-                    .id(k.getId())
-                    .productCode(k.getProductCode())
-                    .name(k.getName())
-                    .productType(k.getProductType())
-                    .description(k.getDescription())
-                    .imageUrl(k.getImageUrl())
-                    .taxable(k.isTaxable())
-                    .price(k.getPrice())
-                    .quantity(v)
+                    .product(product)
+                    .quantity(quantity)
                     .build();
             cartItems.add(cartItem);
         });

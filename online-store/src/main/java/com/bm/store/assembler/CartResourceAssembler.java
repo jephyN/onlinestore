@@ -1,11 +1,14 @@
 package com.bm.store.assembler;
 
 import com.bm.store.controller.CartController;
-import com.bm.store.controller.ProductController;
+import com.bm.store.dto.CartModel;
+import com.bm.store.dto.ProductModel;
+import com.bm.store.mapper.CartMapper;
 import com.bm.store.model.Cart;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.hateoas.LinkRelation;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashSet;
@@ -15,18 +18,43 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class CartResourceAssembler implements RepresentationModelAssembler<Cart, EntityModel<Cart>> {
+public class CartResourceAssembler extends RepresentationModelAssemblerSupport<Cart, CartModel> {
+
+    private static final String PRODUCTS = "products";
+    private final CartMapper cartMapper;
+    private final ProductResourceAssembler productResourceAssembler;
+
+    public CartResourceAssembler(CartMapper cartMapper, ProductResourceAssembler productResourceAssembler) {
+        super(CartController.class, CartModel.class);
+        this.cartMapper = cartMapper;
+        this.productResourceAssembler = productResourceAssembler;
+    }
 
     @Override
-    public EntityModel<Cart> toModel(Cart cart) {
+    public CartModel toModel(Cart cart) {
+        CartModel cartModel = cartMapper.mapCartToCartModel(cart);
+        cartModel.add(linkTo(methodOn(CartController.class).readCart()).withSelfRel());
+        Set<Link> links = generateLinks(cartModel);
+        cartModel.add(links);
+        return cartModel;
+    }
+
+    private Set<Link> generateLinks(CartModel cartModel) {
         Set<Link> links = new LinkedHashSet<>();
-        links.add(linkTo(methodOn(CartController.class)
-                .readCart())
-                .withSelfRel());
-        cart.getSelectedProducts().forEach((p, q) ->
-                links.add(linkTo(methodOn(ProductController.class)
-                        .readProduct(p.getId()))
-                        .withRel("products")));
-        return EntityModel.of(cart, links);
+        cartModel.getCartItems().stream()
+                .parallel()
+                .forEach(cartItem -> {
+                    ProductModel productModel = productResourceAssembler.toModel(cartItem.getProduct());
+                    links.add(getProductLink(productModel));
+                });
+        return links;
+    }
+
+    private static Link getProductLink(ProductModel productModel) {
+        return productModel.getRequiredLink(IanaLinkRelations.SELF)
+                .withRel(LinkRelation.of(PRODUCTS))
+                .withTitle(productModel.getProductCode())
+                .withName(productModel.getName())
+                .withType(productModel.getProductType());
     }
 }
