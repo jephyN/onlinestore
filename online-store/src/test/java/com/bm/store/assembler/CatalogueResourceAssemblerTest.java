@@ -24,15 +24,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CatalogueResourceAssemblerTest {
 
     CatalogueResourceAssembler assembler;
-    ProductResourceAssembler productResourceAssembler;
-    CatalogueMapper catalogueMapper;
-    ProductMapper productMapper;
 
     @BeforeEach
     void setUp() {
-        catalogueMapper = new CatalogueMapperImpl();
-        productMapper = new ProductMapperImpl();
-        productResourceAssembler = new ProductResourceAssembler(productMapper);
+        CatalogueMapper catalogueMapper = new CatalogueMapperImpl();
+        ProductMapper productMapper = new ProductMapperImpl();
+        ProductResourceAssembler productResourceAssembler = new ProductResourceAssembler(productMapper);
         assembler = new CatalogueResourceAssembler(catalogueMapper, productResourceAssembler);
     }
 
