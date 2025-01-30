@@ -17,7 +17,7 @@ class CartServiceTest {
 
     @BeforeEach
     void setUp() {
-        Calculator calculator = new Calculator();
+        Calculator calculator = new Calculator(0.13);
         cartService = new CartServiceImpl(calculator);
     }
 
@@ -39,8 +39,8 @@ class CartServiceTest {
                 .hasSize(1)
                 .containsKey(product)
                 .containsValue(quantity);
-        assertThat(cart.getTotalTaxes()).isEqualTo(1.3D);
-        assertThat(cart.getTotalPrice()).isEqualTo(11.29D);
+        assertThat(cart.getTotalTaxes()).isEqualTo(BigDecimal.valueOf(1.30D).setScale(2));
+        assertThat(cart.getTotalPrice()).isEqualTo(BigDecimal.valueOf(11.29D));
         assertThat(cart.getCartItems()).hasSize(1);
     }
 
@@ -63,8 +63,8 @@ class CartServiceTest {
                 .hasSize(1)
                 .containsKey(product)
                 .containsValue(quantity * 2);
-        assertThat(cart.getTotalTaxes()).isEqualTo(2.6D);
-        assertThat(cart.getTotalPrice()).isEqualTo(22.58D);
+        assertThat(cart.getTotalTaxes()).isEqualTo(BigDecimal.valueOf(2.60D).setScale(2));
+        assertThat(cart.getTotalPrice()).isEqualTo(BigDecimal.valueOf(22.58D));
         assertThat(cart.getCartItems()).hasSize(1);
     }
 

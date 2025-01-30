@@ -3,6 +3,7 @@ package com.bm.store.utils;
 import com.bm.store.dto.CartItem;
 import com.bm.store.model.Cart;
 import com.bm.store.model.Product;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -13,7 +14,11 @@ import java.util.function.Predicate;
 @Component
 public class Calculator {
 
-    private static final double TAX = 0.13;
+    private final double TAX;
+
+    public Calculator(@Value("${utils.calculator.tax}") final double tax) {
+        TAX = tax;
+    }
 
     /**
      * Calcule les taxes pour les articles du panier.
@@ -21,8 +26,7 @@ public class Calculator {
      * @param cart le panier pour lequel les taxes seront calculées.
      */
     public void calculateTaxes(Cart cart) {
-        cart.setTotalTaxes(calculateTotalFor(cart, getTaxableProductPrice(), isTaxableProduct())
-                .doubleValue());
+        cart.setTotalTaxes(calculateTotalFor(cart, getTaxableProductPrice(), isTaxableProduct()));
     }
 
     /**
@@ -32,8 +36,7 @@ public class Calculator {
      */
     public void calculateTotalPrice(Cart cart) {
         cart.setTotalPrice(calculateTotalFor(cart, getProductPrice(), isNotNullProduct())
-                .add(BigDecimal.valueOf(cart.getTotalTaxes()))
-                .doubleValue());
+                .add(cart.getTotalTaxes()));
     }
 
     /**
@@ -62,7 +65,7 @@ public class Calculator {
     private Function<CartItem, BigDecimal> getTaxableProductPrice() {
         return item -> getProduct(item).getPrice()
                 .multiply(BigDecimal.valueOf(TAX))
-                .multiply(BigDecimal.valueOf(item.getQuantity()));
+                .multiply(BigDecimal.valueOf(item.quantity()));
     }
 
     /**
@@ -72,7 +75,7 @@ public class Calculator {
      */
     private Function<CartItem, BigDecimal> getProductPrice() {
         return item -> getProduct(item).getPrice()
-                .multiply(BigDecimal.valueOf(item.getQuantity()));
+                .multiply(BigDecimal.valueOf(item.quantity()));
     }
 
     /**
@@ -100,6 +103,6 @@ public class Calculator {
      * @return le produit associé à l'article.
      */
     private Product getProduct(CartItem item) {
-        return item.getProduct();
+        return item.product();
     }
 }

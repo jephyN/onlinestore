@@ -6,14 +6,13 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 /**
  * @author Jephy
  * @version 1.0
  * @since 2019-07-07
  */
-@Schema(description = "All details about the catalague.")
+@Schema(description = "All details about the catalogue.")
 @Getter
 @Setter
 @NoArgsConstructor

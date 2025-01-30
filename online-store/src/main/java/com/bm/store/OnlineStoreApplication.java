@@ -1,14 +1,13 @@
 package com.bm.store;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-
+import com.bm.store.model.Cart;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.bm.store.model.Cart;
-import com.bm.store.model.Product;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 @SpringBootApplication
 public class OnlineStoreApplication {
@@ -20,9 +19,9 @@ public class OnlineStoreApplication {
 	@Bean(name = "customerCart")
 	public Cart customerCart() {
 		return Cart.builder()
-				.selectedProducts(new LinkedHashMap<Product, Long>())
-				.totalPrice(0d)
-				.totalTaxes(0d)
+				.selectedProducts(new LinkedHashMap<>())
+				.totalPrice(BigDecimal.ZERO)
+				.totalTaxes(BigDecimal.ZERO)
 				.cartItems(new ArrayList<>())
 				.build();
 	}

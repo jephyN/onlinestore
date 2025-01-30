@@ -59,10 +59,12 @@ class CartResourceAssemblerTest {
                 .build();
 
         List<CartItem> cartItems = List.of(cartItem);
+        BigDecimal totalTaxes = BigDecimal.valueOf(1.3D);
+        BigDecimal totalPrice = BigDecimal.valueOf(11.3D);
         Cart cart = Cart.builder()
                 .cartItems(cartItems)
-                .totalTaxes(1.3D)
-                .totalPrice(11.3D)
+                .totalTaxes(totalTaxes)
+                .totalPrice(totalPrice)
                 .build();
 
         /* When */
@@ -71,7 +73,9 @@ class CartResourceAssemblerTest {
         /* Then */
         assertThat(resource).isNotNull();
         assertThat(resource).hasNoNullFieldsOrProperties();
-        assertThat(resource).extracting("cartItems", "totalTaxes", "totalPrice").contains(cartItems,1.3D, 11.3D);
+        assertThat(resource)
+                .extracting("cartItems", "totalTaxes", "totalPrice")
+                .contains(cartItems,totalTaxes, totalPrice);
         assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
         assertThat(resource.getLinks()).isNotNull().hasSize(2);
         assertThat(resource.hasLink("products")).isTrue();

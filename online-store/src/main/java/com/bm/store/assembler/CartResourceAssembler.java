@@ -44,7 +44,7 @@ public class CartResourceAssembler extends RepresentationModelAssemblerSupport<C
         cartModel.getCartItems().stream()
                 .parallel()
                 .forEach(cartItem -> {
-                    ProductModel productModel = productResourceAssembler.toModel(cartItem.getProduct());
+                    ProductModel productModel = productResourceAssembler.toModel(cartItem.product());
                     links.add(getProductLink(productModel));
                 });
         return links;

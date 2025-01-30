@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +28,10 @@ public final class Cart extends StoreUnit {
 	private Map<Product, Long> selectedProducts;
 
 	@Schema(description = "Total taxes of the cart")
-	private Double totalTaxes;
+	private BigDecimal totalTaxes;
 
 	@Schema(description = "Total price of the cart with taxes included")
-	private Double totalPrice;
+	private BigDecimal totalPrice;
 
 	@Schema(description = "Cart items that links products and quantities for JSON representation")
 	private List<CartItem> cartItems;

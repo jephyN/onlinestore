@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -20,10 +21,10 @@ import java.util.List;
 public class CartModel extends RepresentationModel<CartModel> {
 
 	@Schema(description = "Total taxes of the cart")
-	private Double totalTaxes;
+	private BigDecimal totalTaxes;
 
 	@Schema(description = "Total price of the cart with taxes included")
-	private Double totalPrice;
+	private BigDecimal totalPrice;
 
 	@Schema(description = "Cart items that links products and quantities for JSON representation")
 	private List<CartItem> cartItems;
