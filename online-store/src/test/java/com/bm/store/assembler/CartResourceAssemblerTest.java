@@ -39,8 +39,8 @@ class CartResourceAssemblerTest {
         CartModel resource = assembler.toModel(cart);
 
         /* Then */
-        assertThat(resource).isNotNull();
-        assertThat(resource).hasAllNullFieldsOrPropertiesExcept("cartItems", "links");
+        assertThat(resource).isNotNull()
+                .hasAllNullFieldsOrPropertiesExcept("cartItems", "links");
         assertThat(resource.getRequiredLink(IanaLinkRelations.SELF)).isNotNull();
         assertThat(resource.getLinks()).isNotNull().hasSize(1);
     }
@@ -71,8 +71,8 @@ class CartResourceAssemblerTest {
         CartModel resource = assembler.toModel(cart);
 
         /* Then */
-        assertThat(resource).isNotNull();
-        assertThat(resource).hasNoNullFieldsOrProperties();
+        assertThat(resource).isNotNull()
+                .hasNoNullFieldsOrProperties();
         assertThat(resource)
                 .extracting("cartItems", "totalTaxes", "totalPrice")
                 .contains(cartItems,totalTaxes, totalPrice);

@@ -1,5 +1,5 @@
 package com.bm.store.model;
 
-public sealed abstract class StoreUnit permits Cart, Catalogue, Product {
+public sealed interface StoreUnit permits Cart, Catalogue, Product {
 
 }

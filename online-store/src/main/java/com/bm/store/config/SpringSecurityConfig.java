@@ -34,7 +34,7 @@ public class SpringSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests((authorizeHttpRequests) ->
+        return http.authorizeHttpRequests(authorizeHttpRequests ->
                 authorizeHttpRequests.requestMatchers(HttpMethod.POST,"/api/account/**").hasAnyRole(USER,ADMIN)
                         .requestMatchers(HttpMethod.DELETE,"/api/account/**").hasAnyRole(USER, ADMIN)
                         .requestMatchers("/api/cart/**", "/api/catalogue/**", "/api/product/**", "/actuator/**",

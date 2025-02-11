@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public non-sealed class Product extends StoreUnit {
+public non-sealed class Product implements StoreUnit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

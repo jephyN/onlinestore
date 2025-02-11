@@ -35,26 +35,26 @@ class AccountControllerTest {
     }
 
     @Test
-    public void connects_whenRequestHasInvalidUserAndPassword_shouldReturn401() throws Exception {
+    void connects_whenRequestHasInvalidUserAndPassword_shouldReturn401() throws Exception {
         this.mockMvc.perform(post("/api/account").with(httpBasic("Nope", "wrongPass")))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    public void connects_whenRequestHasInvalidPassword_shouldReturn401() throws Exception {
+    void connects_whenRequestHasInvalidPassword_shouldReturn401() throws Exception {
         this.mockMvc.perform(post("/api/account").with(httpBasic("user", "wrongPass")))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    public void connects_whenRequestHasInvalidUser_shouldReturn401() throws Exception {
+    void connects_whenRequestHasInvalidUser_shouldReturn401() throws Exception {
         this.mockMvc.perform(post("/api/account").with(httpBasic("WrongUser", "password")))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithUserDetails()
-    public void connects_whenRequestHasValidUserAndPassword_shouldReturnConnected() throws Exception {
+    void connects_whenRequestHasValidUserAndPassword_shouldReturnConnected() throws Exception {
         this.mockMvc.perform(post("/api/account"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Connected!!"));
@@ -62,32 +62,32 @@ class AccountControllerTest {
 
     @Test
     @WithAnonymousUser
-    public void disconnects_whenRequestHasNeitherUserNorPassword_shouldReturn401() throws Exception {
+    void disconnects_whenRequestHasNeitherUserNorPassword_shouldReturn401() throws Exception {
         this.mockMvc.perform(delete("/api/account"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    public void disconnects_whenRequestHasInvalidUserAndPassword_shouldReturn401() throws Exception {
+    void disconnects_whenRequestHasInvalidUserAndPassword_shouldReturn401() throws Exception {
         this.mockMvc.perform(delete("/api/account").with(httpBasic("Nope", "wrongPass")))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    public void disconnects_whenRequestHasInvalidPassword_shouldReturn401() throws Exception {
+    void disconnects_whenRequestHasInvalidPassword_shouldReturn401() throws Exception {
         this.mockMvc.perform(delete("/api/account").with(httpBasic("user", "wrongPass")))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    public void disconnects_whenRequestHasInvalidUser_shouldReturn401() throws Exception {
+    void disconnects_whenRequestHasInvalidUser_shouldReturn401() throws Exception {
         this.mockMvc.perform(delete("/api/account").with(httpBasic("WrongUser", "password")))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithUserDetails()
-    public void disconnects_whenRequestHasValidUserAndPassword_shouldReturnDisconnected() throws Exception {
+    void disconnects_whenRequestHasValidUserAndPassword_shouldReturnDisconnected() throws Exception {
         this.mockMvc.perform(delete("/api/account").with(httpBasic("user", "password")))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Disconnected!!"));
