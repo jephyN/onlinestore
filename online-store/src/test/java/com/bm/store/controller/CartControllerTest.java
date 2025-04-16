@@ -25,17 +25,19 @@ class CartControllerTest {
             {"totalTaxes":0.0,
              "totalPrice":0.0,
              "cartItems":[],
-             "_links":{"self":{"href":"http://localhost/api/cart"}}}""";
+             "_links":{"self":{"href":"http://localhost/api/cart/TESTUID"}}}""";
 
 
     @Autowired
     private MockMvc mockMvc;
 
+    //TODO Use different users and add new test cases
+
 
     @Test
     @Order(1)
     void readCart_whenCartIsEmpty_shouldReturnsDefaultCustomerCart() throws Exception {
-        this.mockMvc.perform(get("/api/cart"))
+        this.mockMvc.perform(get("/api/cart/TESTUID"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedDefaultCustomerCart));
     }
@@ -43,7 +45,7 @@ class CartControllerTest {
     @Test
     @Order(2)
     void addProductToCart_whenProductIsNotFound_shouldReturnCartWithOneProduct() throws Exception {
-        this.mockMvc.perform(patch("/api/cart/product/-1?qt=1"))
+        this.mockMvc.perform(patch("/api/cart/TESTUID/product/-1?qt=1"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product -1"));
     }
@@ -69,7 +71,7 @@ class CartControllerTest {
                 }],
                 "_links":{
                     "self":{
-                    "href":"http://localhost/api/cart"
+                    "href":"http://localhost/api/cart/TESTUID"
                    },
                     "products":{
                       "href":"http://localhost/api/product/1",
@@ -79,7 +81,7 @@ class CartControllerTest {
                     }
                   }
                 }""";
-        this.mockMvc.perform(patch("/api/cart/product/1?qt=1"))
+        this.mockMvc.perform(patch("/api/cart/TESTUID/product/1?qt=1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedCartWithOneProduct));
     }
@@ -87,7 +89,7 @@ class CartControllerTest {
     @Test
     @Order(4)
     void removeProductToCart_whenProductIsNotFound_shouldReturn404() throws Exception {
-        this.mockMvc.perform(delete("/api/cart/product/-1?qt=1"))
+        this.mockMvc.perform(delete("/api/cart/TESTUID/product/-1?qt=1"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product -1"));
     }
@@ -95,7 +97,7 @@ class CartControllerTest {
     @Test
     @Order(5)
     void removeProductToCart_whenCartDoesNotContainProduct_shouldReturnUnModifiedCart() throws Exception {
-        this.mockMvc.perform(delete("/api/cart/product/3?qt=1"))
+        this.mockMvc.perform(delete("/api/cart/TESTUID/product/3?qt=1"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find the product 3 in the cart."));
     }
@@ -103,7 +105,7 @@ class CartControllerTest {
     @Test
     @Order(6)
     void removeProductToCart_whenCartIsNotEmpty_shouldReturnEmptyCart() throws Exception {
-        this.mockMvc.perform(delete("/api/cart/product/1?qt=1"))
+        this.mockMvc.perform(delete("/api/cart/TESTUID/product/1?qt=1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedDefaultCustomerCart));
     }

@@ -5,6 +5,7 @@ import com.bm.store.dto.CartModel;
 import com.bm.store.dto.ProductModel;
 import com.bm.store.mapper.CartMapper;
 import com.bm.store.model.Cart;
+import lombok.Setter;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkRelation;
@@ -23,6 +24,8 @@ public class CartResourceAssembler extends RepresentationModelAssemblerSupport<C
     private static final String PRODUCTS = "products";
     private final CartMapper cartMapper;
     private final ProductResourceAssembler productResourceAssembler;
+    @Setter
+    private String userId;
 
     public CartResourceAssembler(CartMapper cartMapper, ProductResourceAssembler productResourceAssembler) {
         super(CartController.class, CartModel.class);
@@ -30,10 +33,11 @@ public class CartResourceAssembler extends RepresentationModelAssemblerSupport<C
         this.productResourceAssembler = productResourceAssembler;
     }
 
+    //TODO utilize a user helper/utils class + Apache Bidimap
     @Override
     public CartModel toModel(Cart cart) {
         CartModel cartModel = cartMapper.mapCartToCartModel(cart);
-        cartModel.add(linkTo(methodOn(CartController.class).readCart()).withSelfRel());
+        cartModel.add(linkTo(methodOn(CartController.class).readCart(userId)).withSelfRel());
         Set<Link> links = generateLinks(cartModel);
         cartModel.add(links);
         return cartModel;
