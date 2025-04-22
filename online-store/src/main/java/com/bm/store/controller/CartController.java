@@ -14,9 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,7 +29,6 @@ public class CartController {
     private final CartService cartService;
     private final ProductService productService;
 
-    /* TODO a user helper/utils class */
     // Utilisation de ConcurrentHashMap pour la gestion des paniers
     private final Map<String, Cart> carts = new ConcurrentHashMap<>();
 
@@ -40,7 +36,7 @@ public class CartController {
     @GetMapping("/{userId}")
     public CartModel readCart(@PathVariable String userId) {
         log.info("Lis un panier pour l'utilisateur {}...", userId);
-        Cart cart = carts.computeIfAbsent(userId, k -> createCart());
+        Cart cart = carts.computeIfAbsent(userId, k -> cartService.createCart());
         cartResourceAssembler.setUserId(userId);
         return cartResourceAssembler.toModel(cart);
     }
@@ -53,7 +49,7 @@ public class CartController {
             @Parameter(name = "La quantité à ajouter", required = true) @RequestParam("qt") long qt) {
         log.info("Ajoute un produit au panier pour l'utilisateur {}...", userId);
         Product produit = productService.getProduct(id);
-        Cart cart = carts.computeIfAbsent(userId, k -> createCart());
+        Cart cart = carts.computeIfAbsent(userId, k -> cartService.createCart());
         cartResourceAssembler.setUserId(userId);
         cartService.addCartItems(cart, produit, qt);
         return cartResourceAssembler.toModel(cart);
@@ -69,7 +65,7 @@ public class CartController {
         Product product = productService.getProduct(id);
         Cart cart = carts.get(userId);
         if (cart != null) {
-            valide(id, product, cart);
+            validate(id, product, cart);
             cartResourceAssembler.setUserId(userId);
             cartService.removeCartItems(cart, product, qt);
             return cartResourceAssembler.toModel(cart);
@@ -78,19 +74,9 @@ public class CartController {
         }
     }
 
-    private void valide(long id, Product product, Cart cart) {
+    private void validate(long id, Product product, Cart cart) {
         Optional.of(cart.getSelectedProducts())
                 .filter(productMap -> productMap.containsKey(product))
                 .orElseThrow(() -> new CartMissingItemException(id));
-    }
-
-    // Méthode pour créer un nouveau panier
-    private Cart createCart() {
-        return Cart.builder()
-                .selectedProducts(new LinkedHashMap<>())
-                .totalPrice(BigDecimal.ZERO)
-                .totalTaxes(BigDecimal.ZERO)
-                .cartItems(new ArrayList<>())
-                .build();
     }
 }
