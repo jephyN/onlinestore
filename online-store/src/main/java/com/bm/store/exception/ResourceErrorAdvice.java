@@ -1,6 +1,7 @@
 package com.bm.store.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ResourceErrorAdvice {
 
 	private static final String MESSAGE_ERREUR_INTROUVABLE = "Ressource introuvable : ";
+	public static final String VALEUR_INVALIDE = "Valeur invalide pour le champ :";
 
 	/**
 	 * Gère les exceptions personnalisées spécifiques et retourne un message
@@ -26,8 +28,30 @@ public class ResourceErrorAdvice {
 	@ResponseBody
 	@ExceptionHandler({ CatalogueNotFoundException.class, ProductNotFoundException.class, CartMissingItemException.class })
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	String resourceNotFoundHandler(RuntimeException exception) {
+	ErrorMessage resourceNotFoundHandler(RuntimeException exception) {
         log.error(MESSAGE_ERREUR_INTROUVABLE + "{}", exception.getMessage());
-		return exception.getMessage();
+		return ErrorMessage.builder().message(exception.getMessage()).build();
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	ErrorMessage resourceValidationErrorHandler(MethodArgumentNotValidException exception) {
+        log.error(exception.getMessage());
+		StringBuilder errorMessage = new StringBuilder();
+
+		if (exception.hasGlobalErrors())
+			errorMessage.append(exception.getGlobalError().getDefaultMessage());
+
+		if (exception.hasFieldErrors())
+			exception.getFieldErrors()
+					.forEach(fieldError ->
+							errorMessage.append(VALEUR_INVALIDE)
+									.append(fieldError.getField())
+									.append(" ")
+									.append(fieldError.getDefaultMessage())
+									.append(". "));
+
+		return ErrorMessage.builder().message(errorMessage.toString()).build();
 	}
 }

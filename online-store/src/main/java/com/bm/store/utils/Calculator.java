@@ -1,6 +1,6 @@
 package com.bm.store.utils;
 
-import com.bm.store.dto.CartItem;
+import com.bm.store.dto.representation.CartItem;
 import com.bm.store.model.Cart;
 import com.bm.store.model.Product;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +14,10 @@ import java.util.function.Predicate;
 @Component
 public class Calculator {
 
-    private final double TAX;
+    private final double tax;
 
     public Calculator(@Value("${utils.calculator.tax}") final double tax) {
-        TAX = tax;
+        this.tax = tax;
     }
 
     /**
@@ -64,7 +64,7 @@ public class Calculator {
      */
     private Function<CartItem, BigDecimal> getTaxableProductPrice() {
         return item -> getProduct(item).getPrice()
-                .multiply(BigDecimal.valueOf(TAX))
+                .multiply(BigDecimal.valueOf(tax))
                 .multiply(BigDecimal.valueOf(item.quantity()));
     }
 

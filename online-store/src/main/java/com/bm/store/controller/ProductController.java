@@ -1,7 +1,7 @@
 package com.bm.store.controller;
 
 import com.bm.store.assembler.ProductResourceAssembler;
-import com.bm.store.dto.ProductModel;
+import com.bm.store.dto.representation.model.ProductModel;
 import com.bm.store.model.Product;
 import com.bm.store.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;

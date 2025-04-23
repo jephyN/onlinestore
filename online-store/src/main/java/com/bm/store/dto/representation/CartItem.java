@@ -1,4 +1,4 @@
-package com.bm.store.dto;
+package com.bm.store.dto.representation;
 
 import com.bm.store.model.Product;
 import lombok.Builder;

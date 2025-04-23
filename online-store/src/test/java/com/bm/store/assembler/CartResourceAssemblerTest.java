@@ -1,7 +1,7 @@
 package com.bm.store.assembler;
 
-import com.bm.store.dto.CartItem;
-import com.bm.store.dto.CartModel;
+import com.bm.store.dto.representation.CartItem;
+import com.bm.store.dto.representation.model.CartModel;
 import com.bm.store.mapper.CartMapper;
 import com.bm.store.mapper.CartMapperImpl;
 import com.bm.store.mapper.ProductMapper;

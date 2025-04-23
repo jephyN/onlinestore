@@ -1,6 +1,6 @@
 package com.bm.store.mapper;
 
-import com.bm.store.dto.CartModel;
+import com.bm.store.dto.representation.model.CartModel;
 import com.bm.store.model.Cart;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

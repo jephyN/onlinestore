@@ -1,8 +1,8 @@
 package com.bm.store.assembler;
 
 import com.bm.store.controller.CartController;
-import com.bm.store.dto.CartModel;
-import com.bm.store.dto.ProductModel;
+import com.bm.store.dto.representation.model.CartModel;
+import com.bm.store.dto.representation.model.ProductModel;
 import com.bm.store.mapper.CartMapper;
 import com.bm.store.model.Cart;
 import lombok.Setter;
@@ -33,7 +33,6 @@ public class CartResourceAssembler extends RepresentationModelAssemblerSupport<C
         this.productResourceAssembler = productResourceAssembler;
     }
 
-    //TODO utilize a user helper/utils class + Apache Bidimap
     @Override
     public CartModel toModel(Cart cart) {
         CartModel cartModel = cartMapper.mapCartToCartModel(cart);

@@ -1,7 +1,7 @@
 package com.bm.store.assembler;
 
 import com.bm.store.controller.ProductController;
-import com.bm.store.dto.ProductModel;
+import com.bm.store.dto.representation.model.ProductModel;
 import com.bm.store.mapper.ProductMapper;
 import com.bm.store.model.Product;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;

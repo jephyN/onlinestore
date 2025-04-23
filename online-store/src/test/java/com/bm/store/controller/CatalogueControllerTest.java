@@ -26,7 +26,7 @@ class CatalogueControllerTest {
         this.mockMvc.perform(get("/api/catalogue/-1"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("Could not find the catalogue -1"));
+                .andExpect(content().json("{\"message\":\"Could not find the catalogue -1\"}"));
     }
 
     @Test

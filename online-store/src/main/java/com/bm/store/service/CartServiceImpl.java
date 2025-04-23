@@ -1,7 +1,7 @@
 package com.bm.store.service;
 
 import com.bm.store.model.Cart;
-import com.bm.store.dto.CartItem;
+import com.bm.store.dto.representation.CartItem;
 import com.bm.store.model.Product;
 import com.bm.store.utils.Calculator;
 import org.springframework.stereotype.Service;

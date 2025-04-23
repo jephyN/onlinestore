@@ -45,6 +45,6 @@ class ProductControllerTest {
         this.mockMvc.perform(get("/api/product/-1"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("Could not find the product -1"));
+                .andExpect(content().json("{\"message\":\"Could not find the product -1\"}"));
     }
 }

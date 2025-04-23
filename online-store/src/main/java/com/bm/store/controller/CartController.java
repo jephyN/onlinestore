@@ -1,7 +1,8 @@
 package com.bm.store.controller;
 
 import com.bm.store.assembler.CartResourceAssembler;
-import com.bm.store.dto.CartModel;
+import com.bm.store.dto.representation.AddProductDTO;
+import com.bm.store.dto.representation.model.CartModel;
 import com.bm.store.exception.CartMissingItemException;
 import com.bm.store.model.Cart;
 import com.bm.store.model.Product;
@@ -10,6 +11,7 @@ import com.bm.store.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -42,16 +44,15 @@ public class CartController {
     }
 
     @Operation(summary = "Ajoute un produit au panier")
-    @PatchMapping("/{userId}/product/{id}")
+    @PatchMapping("/{userId}")
     public CartModel addProductToCart(
-            @PathVariable String userId,
-            @Parameter(name = "l'id du produit à ajouter", required = true) @PathVariable(value = "id") long id,
-            @Parameter(name = "La quantité à ajouter", required = true) @RequestParam("qt") long qt) {
+            @Valid @RequestBody AddProductDTO addProductDTO,
+            @Parameter(name = "l'utilisateur", required = true) @PathVariable String userId) {
         log.info("Ajoute un produit au panier pour l'utilisateur {}...", userId);
-        Product produit = productService.getProduct(id);
+        Product produit = productService.getProduct(addProductDTO.productId);
         Cart cart = carts.computeIfAbsent(userId, k -> cartService.createCart());
         cartResourceAssembler.setUserId(userId);
-        cartService.addCartItems(cart, produit, qt);
+        cartService.addCartItems(cart, produit, addProductDTO.quantity);
         return cartResourceAssembler.toModel(cart);
     }
 

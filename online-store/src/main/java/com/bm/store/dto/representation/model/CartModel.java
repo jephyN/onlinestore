@@ -1,5 +1,6 @@
-package com.bm.store.dto;
+package com.bm.store.dto.representation.model;
 
+import com.bm.store.dto.representation.CartItem;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;

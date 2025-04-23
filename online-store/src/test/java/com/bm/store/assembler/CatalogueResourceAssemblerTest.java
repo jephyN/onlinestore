@@ -1,7 +1,7 @@
 package com.bm.store.assembler;
 
-import com.bm.store.dto.CatalogueModel;
-import com.bm.store.dto.ProductModel;
+import com.bm.store.dto.representation.model.CatalogueModel;
+import com.bm.store.dto.representation.model.ProductModel;
 import com.bm.store.mapper.CatalogueMapper;
 import com.bm.store.mapper.CatalogueMapperImpl;
 import com.bm.store.mapper.ProductMapper;
