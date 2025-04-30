@@ -53,7 +53,6 @@ public class SpringSecurityConfig {
 
     @Bean public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring() .requestMatchers("/v3/api-docs/**", "/swagger-ui/**",
-                "/swagger-ui.html", "/swagger-resources/**", "/swagger-resources", "/api-docs/**");
+                "/swagger-ui.html", "/swagger-resources/**", "/swagger-resources", "/api-docs/**", "/h2-console/**");
     }
-
 }
