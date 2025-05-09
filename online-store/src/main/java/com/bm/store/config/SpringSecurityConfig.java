@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,7 +41,14 @@ public class SpringSecurityConfig {
                                 "/api/catalogue/**",
                                 "/api/product/**",
                                 "/actuator/**",
-                                "/explorer/**" )
+                                "/explorer/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-resources/**",
+                                "/swagger-resources",
+                                "/api-docs/**",
+                                "/h2-console/**")
                         .permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/account/**").hasAnyRole(USER,ADMIN)
                         .requestMatchers(HttpMethod.DELETE,"/api/account/**").hasAnyRole(USER, ADMIN))
@@ -57,8 +63,4 @@ public class SpringSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring() .requestMatchers("/v3/api-docs/**", "/swagger-ui/**",
-                "/swagger-ui.html", "/swagger-resources/**", "/swagger-resources", "/api-docs/**", "/h2-console/**");
-    }
 }
