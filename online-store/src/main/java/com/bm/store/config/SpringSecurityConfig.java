@@ -1,5 +1,6 @@
 package com.bm.store.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,14 +19,20 @@ public class SpringSecurityConfig {
     public static final String USER = "USER";
     public static final String ADMIN = "ADMIN";
 
+    @Value("${config.springSecurityConfig.userPassword}")
+    public String userPassword;
+
+    @Value("${config.springSecurityConfig.adminPassword}")
+    public String adminPassword;
+
     @Bean
     public InMemoryUserDetailsManager userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) {
         UserDetails defaultUser = User.withUsername("user")
-                .password(bCryptPasswordEncoder.encode("password"))
+                .password(bCryptPasswordEncoder.encode(userPassword))
                 .roles(USER)
                 .build();
         UserDetails admin = User.withUsername("admin")
-                .password(bCryptPasswordEncoder.encode("password"))
+                .password(bCryptPasswordEncoder.encode(adminPassword))
                 .roles(USER, ADMIN)
                 .build();
         return new InMemoryUserDetailsManager(defaultUser, admin);
