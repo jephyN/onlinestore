@@ -28,7 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: list files
-      run: ls -la
+      run: ls -la online-store
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
