@@ -26,7 +26,8 @@ public class Calculator {
      * @param cart le panier pour lequel les taxes seront calculées.
      */
     public void calculateTaxes(Cart cart) {
-        cart.setTotalTaxes(calculateTotalFor(cart, getTaxableProductPrice(), isTaxableProduct()));
+        BigDecimal totalTaxes = calculateTotalFor(cart, getTaxableProductPrice(), isTaxableProduct());
+        cart.setTotalTaxes(totalTaxes);
     }
 
     /**
@@ -35,8 +36,9 @@ public class Calculator {
      * @param cart le panier pour lequel le prix total sera calculé.
      */
     public void calculateTotalPrice(Cart cart) {
-        cart.setTotalPrice(calculateTotalFor(cart, getProductPrice(), isNotNullProduct())
-                .add(cart.getTotalTaxes()));
+        BigDecimal totalPriceWithoutTaxes = calculateTotalFor(cart, getProductPrice(), isNotNullProduct());
+        BigDecimal totalPrice = totalPriceWithoutTaxes.add(cart.getTotalTaxes());
+        cart.setTotalPrice(totalPrice);
     }
 
     /**
