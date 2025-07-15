@@ -3,16 +3,16 @@ package com.bm.store.exception;
 import java.io.Serial;
 
 /**
- * Exception levée lorsque l'article du panier est manquant.
+ * Exception raised when the basket item is missing.
  */
 public class CartMissingItemException extends RuntimeException {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Construire une nouvelle exception pour un article manquant dans le panier.
+	 * Build a new exception for a missing item in the cart.
 	 *
-	 * @param id L'identifiant de l'article.
+	 * @param id The article ID.
 	 */
 	public CartMissingItemException(long id) {
 		super("Could not find the product " + id + " in the cart.");

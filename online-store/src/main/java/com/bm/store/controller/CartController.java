@@ -31,24 +31,23 @@ public class CartController {
     private final CartService cartService;
     private final ProductService productService;
 
-    // Utilisation de ConcurrentHashMap pour la gestion des paniers
     private final Map<String, Cart> carts = new ConcurrentHashMap<>();
 
-    @Operation(summary = "Lire les informations du panier")
+    @Operation(summary = "Read the cart information")
     @GetMapping("/{userId}")
     public CartModel readCart(@PathVariable String userId) {
-        log.info("Lis un panier pour l'utilisateur {}...", userId);
+        log.info("Read a basket for the user {}...", userId);
         Cart cart = carts.computeIfAbsent(userId, k -> cartService.createCart());
         cartResourceAssembler.setUserId(userId);
         return cartResourceAssembler.toModel(cart);
     }
 
-    @Operation(summary = "Ajoute un produit au panier")
+    @Operation(summary = "Add a product to the cart")
     @PatchMapping("/{userId}")
     public CartModel addProductToCart(
             @Valid @RequestBody AddProductDTO addProductDTO,
-            @Parameter(name = "l'utilisateur", required = true) @PathVariable String userId) {
-        log.info("Ajoute un produit au panier pour l'utilisateur {}...", userId);
+            @Parameter(name = "userId", required = true) @PathVariable String userId) {
+        log.info("Add a product to the cart for the user {}...", userId);
         Product produit = productService.getProduct(addProductDTO.productId);
         Cart cart = carts.computeIfAbsent(userId, k -> cartService.createCart());
         cartResourceAssembler.setUserId(userId);
@@ -56,13 +55,13 @@ public class CartController {
         return cartResourceAssembler.toModel(cart);
     }
 
-    @Operation(summary = "Supprime un produit du panier")
+    @Operation(summary = "Remove a product from the cart")
     @DeleteMapping("/{userId}/product/{id}")
     public CartModel removeProductFromCart(
             @PathVariable String userId,
-            @Parameter(name = "l'id du produit à supprimer", required = true) @PathVariable(value = "id") long id,
-            @Parameter(name = "quantité à supprimer", required = true) @RequestParam("qt") long qt) {
-        log.info("Supprime un produit du panier pour l'utilisateur {}...", userId);
+            @Parameter(description = "the id of the product to be deleted", required = true) @PathVariable(value = "id") long id,
+            @Parameter(description = "the quantity to delete", required = true) @RequestParam("qt") long qt) {
+        log.info("Removes a product from the cart for the user {}...", userId);
         Product product = productService.getProduct(id);
         Cart cart = carts.get(userId);
         if (cart != null) {
