@@ -1,10 +1,9 @@
 package com.bm.store.controller;
 
 import com.bm.store.assembler.CatalogueResourceAssembler;
-import com.bm.store.dao.CatalogueRepository;
 import com.bm.store.dto.representation.model.CatalogueModel;
-import com.bm.store.exception.CatalogueNotFoundException;
 import com.bm.store.model.Catalogue;
+import com.bm.store.service.CatalogueService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,15 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class CatalogueController {
 
-    private final CatalogueRepository catalogueRepository;
+    private final CatalogueService catalogueService;
     private final CatalogueResourceAssembler catalogueResourceAssembler;
 
     @Operation(summary = "Read catalogue's information")
     @GetMapping("/{id}")
     public CatalogueModel readCatalogue(@Parameter(name = "Catalog id to read mission object", required = true) @PathVariable(value = "id") int id) {
         log.info("Reading a catalogue ...");
-        Catalogue catalogue = catalogueRepository.findById(id)
-                .orElseThrow(() -> new CatalogueNotFoundException(id));
+        Catalogue catalogue = catalogueService.getCatalogue(id);
         return catalogueResourceAssembler.toModel(catalogue);
     }
 }
