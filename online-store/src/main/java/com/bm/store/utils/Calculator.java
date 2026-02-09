@@ -21,31 +21,33 @@ public class Calculator {
     }
 
     /**
-     * Calcule les taxes pour les articles du panier.
+     * Calculate the taxes for the items in the basket.
      *
-     * @param cart le panier pour lequel les taxes seront calculées.
+     * @param cart the basket for which taxes will be calculated.
      */
     public void calculateTaxes(Cart cart) {
-        cart.setTotalTaxes(calculateTotalFor(cart, getTaxableProductPrice(), isTaxableProduct()));
+        BigDecimal totalTaxes = calculateTotalFor(cart, getTaxableProductPrice(), isTaxableProduct());
+        cart.setTotalTaxes(totalTaxes);
     }
 
     /**
-     * Calcule le prix total du panier, taxes incluses.
+     * Calculate the total price of the basket, taxes included.
      *
-     * @param cart le panier pour lequel le prix total sera calculé.
+     * @param cart the basket for which the total price will be calculated.
      */
     public void calculateTotalPrice(Cart cart) {
-        cart.setTotalPrice(calculateTotalFor(cart, getProductPrice(), isNotNullProduct())
-                .add(cart.getTotalTaxes()));
+        BigDecimal totalPriceWithoutTaxes = calculateTotalFor(cart, getProductPrice(), isNotNullProduct());
+        BigDecimal totalPrice = totalPriceWithoutTaxes.add(cart.getTotalTaxes());
+        cart.setTotalPrice(totalPrice);
     }
 
     /**
-     * Calcule le total d'un ensemble d'articles du panier selon une fonction et un filtre.
+     * Calculates the total of a set of items in the basket according to a function and a filter.
      *
-     * @param cart         le panier à traiter.
-     * @param function     la fonction à appliquer à chaque article.
-     * @param filter       le filtre pour sélectionner les articles à traiter.
-     * @return le total des résultats de la fonction appliquée aux articles filtrés.
+     * @param cart         the basket to process.
+     * @param function     the function to apply to each article.
+     * @param filter       the filter to select the items to be processed.
+     * @return the total results of the function applied to the filtered articles.
      */
     private BigDecimal calculateTotalFor(Cart cart, Function<CartItem, BigDecimal> function,
                                              Predicate<? super CartItem> filter) {
@@ -58,9 +60,9 @@ public class Calculator {
     }
 
     /**
-     * Obtient le prix d'un article du panier, taxes incluses.
+     * Get the price of an item from the basket, taxes included.
      *
-     * @return le prix de l'article avec les taxes.
+     * @return the price of the item with taxes.
      */
     private Function<CartItem, BigDecimal> getTaxableProductPrice() {
         return item -> getProduct(item).getPrice()
@@ -69,9 +71,9 @@ public class Calculator {
     }
 
     /**
-     * Obtient le prix total avant taxes d'un ou plusieurs même articles du panier sans taxes.
+     * Obtains the total price before taxes of one or more same items in the basket without taxes.
      *
-     * @return le prix total avant taxes d'un ou plusieurs même articles du panier sans taxes.
+     * @return the total price before taxes of one or more same items in the basket without taxes.
      */
     private Function<CartItem, BigDecimal> getProductPrice() {
         return item -> getProduct(item).getPrice()
@@ -79,28 +81,28 @@ public class Calculator {
     }
 
     /**
-     * Vérifie si un article du panier est imposable.
+     * Checks if an item in the basket is taxable.
      *
-     * @return vrai si l'article est imposable, faux sinon.
+     * @return true if the item is taxable, false otherwise.
      */
     private Predicate<? super CartItem> isTaxableProduct() {
         return cartItem -> getProduct(cartItem).isTaxable();
     }
 
     /**
-     * Vérifie si un article du panier n'est pas nul.
+     * Checks if an item in the cart is not null.
      *
-     * @return vrai si l'article n'est pas nul, faux sinon.
+     * @return true if the article is not null, false otherwise.
      */
     private Predicate<? super CartItem> isNotNullProduct() {
         return x -> true;
     }
 
     /**
-     * Obtient le produit associé à un article du panier.
+     * Gets the product associated with an item in the cart.
      *
-     * @param item l'article du panier.
-     * @return le produit associé à l'article.
+     * @param item the item from the basket.
+     * @return the product associated with the item.
      */
     private Product getProduct(CartItem item) {
         return item.product();

@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Gestionnaire global des exceptions pour l'application.
+ * Global exception manager for the application.
  */
 @ControllerAdvice
 @Slf4j
 public class ResourceErrorAdvice {
 
-	private static final String MESSAGE_ERREUR_INTROUVABLE = "Ressource introuvable : ";
-	public static final String VALEUR_INVALIDE = "Valeur invalide pour le champ :";
+	private static final String MESSAGE_ERREUR_INTROUVABLE = "Resource not found : ";
+	public static final String VALEUR_INVALIDE = "Invalid value for the field :";
 
 	/**
-	 * Gère les exceptions personnalisées spécifiques et retourne un message
-	 * d'erreur.
+	 * Handles specific custom exceptions and returns an error
+	 * message.
 	 *
-	 * @param exception L'exception levée.
-	 * @return Le message d'erreur.
+	 * @param exception The exception raised.
+	 * @return The error message.
 	 */
 	@ResponseBody
 	@ExceptionHandler({ CatalogueNotFoundException.class, ProductNotFoundException.class, CartMissingItemException.class })

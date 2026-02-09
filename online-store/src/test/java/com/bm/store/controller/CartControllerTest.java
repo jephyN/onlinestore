@@ -68,7 +68,7 @@ class CartControllerTest {
         AddProductDTO addProductDTO = AddProductDTO.builder()
                 .quantity(quantity).productId(1).build();
         String expectedError = """
-                {"message":"Valeur invalide pour le champ :quantity must be greater than 0. "}
+                {"message":"Invalid value for the field :quantity must be greater than 0. "}
                 """;
 
         this.mockMvc.perform(patch("/api/cart/TESTUID")

@@ -3,16 +3,16 @@ package com.bm.store.exception;
 import java.io.Serial;
 
 /**
- * Exception levée lorsque le catalogue est introuvable.
+ * Exception raised when the catalog is not found.
  */
 public class CatalogueNotFoundException extends RuntimeException {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Construire une nouvelle exception pour un catalogue introuvable.
+	 * Build a new exception for a catalog not found.
 	 *
-	 * @param id L'identifiant du catalogue.
+	 * @param id The identifier of the catalog.
 	 */
 	public CatalogueNotFoundException(int id) {
 		super("Could not find the catalogue " + id);
