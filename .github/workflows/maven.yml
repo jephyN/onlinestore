@@ -28,11 +28,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        run: mvn -B package --file online-store/pom.xml
+        working-directory: online-store
+        run: mvn -B package --file pom.xml
+
+      - name: Make mvnw executable
+        run: chmod +x online-store/mvnw
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@df268dd1684fb95352aa463056e3cf41f9acb94b
         with:
-          directory: '/home/runner/work/onlinestore/onlinestore/online-store'
+          directory: '${{ github.workspace }}/online-store'
 
