@@ -26,7 +26,7 @@ public class CatalogueController {
 
     @Operation(summary = "Read catalogue's information")
     @GetMapping("/{id}")
-    public CatalogueModel readCatalogue(@Parameter(name = "Catalog id to read mission object", required = true) @PathVariable(value = "id") int id) {
+    public CatalogueModel readCatalogue(@PathVariable int id) {
         log.info("Reading a catalogue ...");
         Catalogue catalogue = catalogueService.getCatalogue(id);
         return catalogueResourceAssembler.toModel(catalogue);

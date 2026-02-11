@@ -5,7 +5,6 @@ import com.bm.store.dto.representation.model.ProductModel;
 import com.bm.store.model.Product;
 import com.bm.store.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ public class ProductController {
 
     @Operation(summary = "Read product's information")
     @GetMapping("/{id}")
-    public ProductModel readProduct(@Parameter(name = "Product id to read mission object", required = true) @PathVariable(value = "id") long id) {
+    public ProductModel readProduct(@PathVariable long id) {
         log.info("Reading a product ...");
         Product product = productService.getProduct(id);
         return productResourceAssembler.toModel(product);
