@@ -70,7 +70,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.assertj</groupId>
+					<artifactId>assertj-core</artifactId>
+				</exclusion>
+			</exclusions>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.27.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.restdocs</groupId>
@@ -89,8 +100,19 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-hateoas</artifactId>
-			<version>1.8.0</version>
+			<artifactId>springdoc-openapi-starter-common</artifactId>
+			<version>2.8.15</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-lang3</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.18.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
