@@ -2,9 +2,12 @@ package com.bm.store.dto.representation;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Positive;
-import lombok.Builder;
+import lombok.*;
 
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
 @Schema(description = "DTO pour ajouter un article au panier")
 public class AddProductDTO {
 

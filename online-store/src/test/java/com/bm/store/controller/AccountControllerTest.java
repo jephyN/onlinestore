@@ -1,13 +1,11 @@
 package com.bm.store.controller;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -16,7 +14,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 class AccountControllerTest {
@@ -55,7 +52,7 @@ class AccountControllerTest {
     @Test
     @WithUserDetails()
     void connects_whenRequestHasValidUserAndPassword_shouldReturnConnected() throws Exception {
-        this.mockMvc.perform(post("/api/account"))
+        this.mockMvc.perform(post("/api/account").with(httpBasic("user", "password")))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Connected!!"));
     }
