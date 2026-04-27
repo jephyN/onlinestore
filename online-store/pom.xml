@@ -23,7 +23,7 @@
 			<dependency>
 				<groupId>tools.jackson.core</groupId>
 				<artifactId>jackson-core</artifactId>
-				<version>3.1.0</version>  <!-- Jackson 3.x -->
+				<version>3.1.1</version>  <!-- Jackson 3.x -->
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
